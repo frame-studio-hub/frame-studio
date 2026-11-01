@@ -3,571 +3,351 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#10110f">
-  <meta name="description" content="FRAME LAB — digital-агентство. Создаём сайты, визуальные концепции и цифровые решения для бизнеса.">
-
+  <meta name="theme-color" content="#090a09">
+  <meta name="description" content="FRAME LAB — digital agency. Создаём визуальные системы, сайты и цифровые впечатления для брендов.">
   <title>FRAME LAB® — Digital Agency</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="./style.css">
-  <script src="./script.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 
 <body>
+  <div class="noise"></div>
+  <div class="cursor-glow"></div>
+  <div class="scroll-progress"></div>
 
-  <div class="progress"><span id="progress-bar"></span></div>
-
-  <!-- NAVIGATION -->
   <header class="header">
-    <a href="#home" class="logo">FRAME<span>LAB</span><sup>®</sup></a>
+    <a href="#home" class="logo" aria-label="FRAME LAB — главная">
+      FRAME<span>LAB</span><sup>®</sup>
+    </a>
 
     <nav class="nav" id="nav">
+      <a href="#about">О нас</a>
       <a href="#work">Проекты</a>
       <a href="#services">Услуги</a>
-      <a href="#about">О нас</a>
       <a href="#process">Процесс</a>
-      <a href="#contact">Контакты</a>
     </nav>
 
-    <a class="header-cta" href="#brief">Обсудить проект <span>↗</span></a>
+    <a class="header-contact" href="#contact">
+      Обсудить проект <span>↗</span>
+    </a>
 
-    <button class="menu-toggle" id="menu-toggle" aria-label="Открыть меню" aria-expanded="false">
-      <span></span>
-      <span></span>
+    <button class="menu-toggle" aria-label="Открыть меню" aria-expanded="false">
+      <span></span><span></span>
     </button>
   </header>
 
   <main>
-
     <!-- HERO -->
-    <section class="hero section" id="home">
-      <div class="hero-top">
-        <span class="eyebrow"><i class="status-dot"></i> DIGITAL AGENCY · EST. 2026</span>
-        <span class="hero-location">INDEPENDENT CREATIVE STUDIO</span>
+    <section class="hero" id="home">
+      <div class="hero-grid"></div>
+      <div class="hero-orb orb-one"></div>
+      <div class="hero-orb orb-two"></div>
+
+      <div class="hero-topline">
+        <span><i class="status-dot"></i> INDEPENDENT DIGITAL AGENCY</span>
+        <span>BASED IN EUROPE · WORKING WORLDWIDE</span>
       </div>
 
-      <h1>
-        Создаём<br>
-        цифровую<br>
-        <span class="outline-text">реальность<span class="lime">.</span></span>
-      </h1>
-
-      <div class="hero-bottom">
-        <p>
-          FRAME LAB — digital-агентство, которое превращает идеи
-          в продуманные сайты, визуальные системы и цифровые продукты.
-        </p>
-
-        <div class="hero-actions">
-          <a href="#work" class="button button-primary">Смотреть проекты <span>↗</span></a>
-          <a href="#about" class="button button-ghost">Познакомиться</a>
+      <div class="hero-content">
+        <div class="hero-kicker reveal">
+          <span class="kicker-line"></span>
+          DESIGN / DIGITAL / EXPERIENCE
         </div>
+
+        <h1 class="hero-title reveal">
+          WE CREATE<br>
+          <span class="outline-text">DIGITAL</span><br>
+          <span class="title-last">IMPRESSIONS<span class="lime-dot">.</span></span>
+        </h1>
+
+        <div class="hero-bottom reveal">
+          <p>
+            Создаём визуальные системы, цифровые продукты
+            и впечатления, которые помогают брендам
+            выделяться среди остальных.
+          </p>
+          <a href="#work" class="round-link" aria-label="Смотреть проекты">
+            <span>↓</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Декоративная движущаяся машина -->
+      <div class="scene">
+        <div class="scene-label">FRAME LAB / VISUAL EXPERIMENT 001</div>
+        <div class="road">
+          <div class="road-line"></div>
+        </div>
+        <div class="car">
+          <div class="car-light"></div>
+          <div class="car-window"></div>
+          <div class="car-body"></div>
+          <div class="wheel wheel-left"></div>
+          <div class="wheel wheel-right"></div>
+        </div>
+        <div class="scene-coordinate">48°12' N&nbsp; 16°22' E</div>
       </div>
 
       <div class="hero-index">
-        <span>01 / 05</span>
-        <span>SCROLL TO EXPLORE ↓</span>
+        <span>01</span>
+        <span class="index-line"></span>
+        <span>04</span>
       </div>
-
-      <div class="hero-decoration">FL®</div>
     </section>
 
-    <!-- MARQUEE -->
-    <div class="marquee" aria-label="FRAME LAB Digital Design Development">
-      <div class="marquee-track">
-        <span>DESIGN</span><b>✳</b>
-        <span>DEVELOPMENT</span><b>✳</b>
-        <span>STRATEGY</span><b>✳</b>
-        <span>DIGITAL</span><b>✳</b>
-        <span>DESIGN</span><b>✳</b>
-        <span>DEVELOPMENT</span><b>✳</b>
-        <span>STRATEGY</span><b>✳</b>
-        <span>DIGITAL</span><b>✳</b>
+    <!-- RUNNING LINE -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span>CREATIVE THINKING</span><b>✳</b>
+        <span>DIGITAL CRAFT</span><b>✳</b>
+        <span>VISUAL CULTURE</span><b>✳</b>
+        <span>BRAND EXPERIENCE</span><b>✳</b>
+        <span>CREATIVE THINKING</span><b>✳</b>
+        <span>DIGITAL CRAFT</span><b>✳</b>
+        <span>VISUAL CULTURE</span><b>✳</b>
+        <span>BRAND EXPERIENCE</span><b>✳</b>
       </div>
     </div>
 
-    <!-- INTRO -->
-    <section class="intro section" id="about">
-      <div class="section-meta">
-        <span class="eyebrow">01 — WHO WE ARE</span>
-        <span class="meta-line"></span>
+    <!-- ABOUT -->
+    <section class="section about" id="about">
+      <div class="section-heading reveal">
+        <span class="eyebrow">01 / WHO WE ARE</span>
+        <span class="section-note">A DIFFERENT POINT OF VIEW</span>
       </div>
 
-      <div class="intro-content">
-        <h2>
-          Не просто сайты.<br>
-          <span class="muted-text">Цифровой образ</span><br>
-          вашего бизнеса.
+      <div class="about-layout">
+        <h2 class="about-title reveal">
+          НЕ ПРОСТО<br>
+          ДЕЛАЕМ <span class="lime-text">КРАСИВО.</span><br>
+          СОЗДАЁМ<br>
+          <span class="outline-dark">ЗНАЧИМОЕ.</span>
         </h2>
 
-        <div class="intro-bottom">
+        <div class="about-side reveal">
+          <div class="about-symbol">F<span>/</span>L</div>
           <p>
-            Мы объединяем дизайн, разработку и стратегическое мышление,
-            чтобы создавать цифровые решения, которые помогают бизнесу
-            выглядеть убедительно и понятно доносить свою ценность.
+            FRAME LAB — независимое digital-агентство.
+            Мы объединяем стратегию, дизайн и технологии,
+            чтобы создавать цельные цифровые образы брендов.
           </p>
-
-          <a href="#services" class="text-link">ЧТО МЫ ДЕЛАЕМ <span>↘</span></a>
+          <p class="muted">
+            Каждый проект начинается с идеи.
+            Каждый элемент должен иметь смысл.
+          </p>
+          <a href="#services" class="text-link">ЧТО МЫ ДЕЛАЕМ <span>↗</span></a>
         </div>
+      </div>
+
+      <div class="about-bottom">
+        <div><strong>01</strong><span>Идея</span></div>
+        <div><strong>02</strong><span>Дизайн</span></div>
+        <div><strong>03</strong><span>Технологии</span></div>
+        <div><strong>04</strong><span>Результат</span></div>
       </div>
     </section>
 
     <!-- WORK -->
-    <section class="work section" id="work">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">02 — SELECTED CONCEPTS</span>
-          <h2>Избранные<br><span class="muted-text">концепции.</span></h2>
-        </div>
+    <section class="section work" id="work">
+      <div class="section-heading reveal">
+        <span class="eyebrow">02 / SELECTED CONCEPTS</span>
+        <span class="section-note">VISUAL EXPERIMENTS</span>
+      </div>
 
+      <div class="work-intro reveal">
+        <h2>SELECTED<br><span class="outline-text">WORKS.</span></h2>
         <p>
-          Направления, в которых мы работаем.
-          Каждый пример — самостоятельная демонстрационная концепция.
+          Исследуем разные индустрии и визуальные направления.
+          Ниже — концептуальные проекты, созданные для демонстрации
+          нашего подхода к дизайну.
         </p>
       </div>
 
-      <div class="filters" role="group" aria-label="Фильтр проектов">
-        <button class="filter active" data-filter="all" aria-pressed="true">Все проекты <span>06</span></button>
-        <button class="filter" data-filter="brand" aria-pressed="false">Бренды</button>
-        <button class="filter" data-filter="business" aria-pressed="false">Бизнес</button>
-        <button class="filter" data-filter="digital" aria-pressed="false">Digital</button>
+      <div class="filters reveal">
+        <button class="filter active" data-filter="all">Все <span>06</span></button>
+        <button class="filter" data-filter="brand">Брендинг</button>
+        <button class="filter" data-filter="digital">Digital</button>
+        <button class="filter" data-filter="visual">Визуал</button>
       </div>
 
-      <div class="project-grid">
-
-        <article class="project" data-category="brand" data-demo="beauty">
-          <button class="project-open" aria-label="Открыть концепцию ATELIER">
-            <div class="project-art art-beauty">
-              <div class="art-top"><span>ATELIER</span><span>BEAUTY / 001</span></div>
-              <div class="beauty-center">
-                <span>THE ART OF</span>
-                <strong>BEAUTY</strong>
-                <i>is in the details.</i>
-              </div>
-              <div class="art-bottom"><span>CONCEPT 01</span><span>EXPLORE ↗</span></div>
-              <div class="beauty-orb"></div>
-            </div>
-            <div class="project-info">
-              <div><span class="project-type">BEAUTY / BRAND</span><h3>ATELIER — Beauty studio</h3></div>
-              <span class="project-arrow">↗</span>
-            </div>
-          </button>
+      <div class="projects-grid">
+        <article class="project-card project-large" data-category="brand visual">
+          <div class="project-art art-beauty">
+            <div class="beauty-glow"></div>
+            <span class="art-corner">CONCEPT / 001</span>
+            <div class="beauty-type">AURA<span>®</span></div>
+            <div class="beauty-sub">BEAUTY IS AN ATTITUDE</div>
+            <div class="beauty-ring"></div>
+          </div>
+          <div class="project-meta">
+            <div><span>01 / BEAUTY</span><h3>AURA — Beauty identity</h3></div>
+            <span class="project-type">BRANDING ↗</span>
+          </div>
         </article>
 
-        <article class="project" data-category="business" data-demo="auto">
-          <button class="project-open" aria-label="Открыть концепцию VANTA">
-            <div class="project-art art-auto">
-              <div class="art-top"><span>VANTA®</span><span>AUTOMOTIVE / 002</span></div>
-              <div class="auto-center">
-                <span>PRECISION IN EVERY DETAIL</span>
-                <strong>NO<br>LIMITS<span>.</span></strong>
-              </div>
-              <div class="auto-line"></div>
-              <div class="art-bottom"><span>PERFORMANCE STUDIO</span><span>CONCEPT 02</span></div>
-            </div>
-            <div class="project-info">
-              <div><span class="project-type">AUTOMOTIVE / BUSINESS</span><h3>VANTA — Automotive</h3></div>
-              <span class="project-arrow">↗</span>
-            </div>
-          </button>
+        <article class="project-card" data-category="brand visual">
+          <div class="project-art art-auto">
+            <span class="art-corner">CONCEPT / 002</span>
+            <div class="auto-number">09</div>
+            <div class="auto-car-shape"></div>
+            <div class="auto-title">NO<br>LIMITS.</div>
+            <div class="auto-caption">AUTOMOTIVE CULTURE / 2026</div>
+          </div>
+          <div class="project-meta">
+            <div><span>02 / AUTOMOTIVE</span><h3>NO LIMITS — Campaign</h3></div>
+            <span class="project-type">VISUAL ↗</span>
+          </div>
         </article>
 
-        <article class="project" data-category="brand" data-demo="cafe">
-          <button class="project-open" aria-label="Открыть концепцию MORNING">
-            <div class="project-art art-cafe">
-              <div class="art-top"><span>MORNING.</span><span>HOSPITALITY / 003</span></div>
-              <div class="cafe-center">
-                <span>TAKE YOUR TIME</span>
-                <strong>Slow<br>down.</strong>
-                <i>coffee · bakery · moments</i>
-              </div>
-              <div class="coffee-shape"></div>
-              <div class="art-bottom"><span>GOOD DAYS START HERE</span><span>CONCEPT 03</span></div>
-            </div>
-            <div class="project-info">
-              <div><span class="project-type">HOSPITALITY / BRAND</span><h3>MORNING — Coffee & bakery</h3></div>
-              <span class="project-arrow">↗</span>
-            </div>
-          </button>
+        <article class="project-card" data-category="brand">
+          <div class="project-art art-cafe">
+            <span class="art-corner">CONCEPT / 003</span>
+            <div class="cafe-sun"></div>
+            <div class="cafe-title">SLOW<br>HOURS<span>.</span></div>
+            <div class="cafe-bottom">COFFEE / PEOPLE / MOMENTS</div>
+          </div>
+          <div class="project-meta">
+            <div><span>03 / HOSPITALITY</span><h3>SLOW HOURS — Identity</h3></div>
+            <span class="project-type">BRANDING ↗</span>
+          </div>
         </article>
 
-        <article class="project" data-category="digital" data-demo="architecture">
-          <button class="project-open" aria-label="Открыть концепцию NØR">
-            <div class="project-art art-architecture">
-              <div class="art-top"><span>NØR</span><span>ARCHITECTURE / 004</span></div>
-              <div class="architecture-shape"><div></div><div></div><div></div></div>
-              <div class="architecture-center">
-                <span>FORM FOLLOWS FEELING</span>
-                <strong>SPACE<br>TO LIVE.</strong>
-              </div>
-              <div class="art-bottom"><span>ARCHITECTURE STUDIO</span><span>CONCEPT 04</span></div>
-            </div>
-            <div class="project-info">
-              <div><span class="project-type">ARCHITECTURE / DIGITAL</span><h3>NØR — Architecture</h3></div>
-              <span class="project-arrow">↗</span>
-            </div>
-          </button>
+        <article class="project-card project-large" data-category="digital visual">
+          <div class="project-art art-architecture">
+            <span class="art-corner">CONCEPT / 004</span>
+            <div class="arch-shape arch-one"></div>
+            <div class="arch-shape arch-two"></div>
+            <div class="arch-title">FORM<br>FOLLOWS<br><i>FEELING.</i></div>
+            <div class="arch-bottom">ARCHITECTURE / DIGITAL EXPERIENCE</div>
+          </div>
+          <div class="project-meta">
+            <div><span>04 / ARCHITECTURE</span><h3>FORM — Digital experience</h3></div>
+            <span class="project-type">DIGITAL ↗</span>
+          </div>
         </article>
 
-        <article class="project" data-category="business" data-demo="fitness">
-          <button class="project-open" aria-label="Открыть концепцию FORM">
-            <div class="project-art art-fitness">
-              <div class="art-top"><span>FORM®</span><span>FITNESS / 005</span></div>
-              <div class="fitness-center">
-                <span>YOUR OWN STANDARD</span>
-                <strong>BUILT<br>BY YOU<span>.</span></strong>
-              </div>
-              <div class="fitness-circle"></div>
-              <div class="art-bottom"><span>TRAINING CLUB</span><span>CONCEPT 05</span></div>
-            </div>
-            <div class="project-info">
-              <div><span class="project-type">FITNESS / BUSINESS</span><h3>FORM — Training club</h3></div>
-              <span class="project-arrow">↗</span>
-            </div>
-          </button>
+        <article class="project-card" data-category="visual">
+          <div class="project-art art-sport">
+            <span class="art-corner">CONCEPT / 005</span>
+            <div class="sport-circle"></div>
+            <div class="sport-title">MOVE<br>BEYOND.</div>
+            <div class="sport-small">YOUR ONLY LIMIT IS YOU</div>
+          </div>
+          <div class="project-meta">
+            <div><span>05 / FITNESS</span><h3>MOVE — Campaign</h3></div>
+            <span class="project-type">VISUAL ↗</span>
+          </div>
         </article>
 
-        <article class="project" data-category="digital" data-demo="object">
-          <button class="project-open" aria-label="Открыть концепцию OBJECT">
-            <div class="project-art art-object">
-              <div class="art-top"><span>OBJECT.</span><span>DESIGN / 006</span></div>
-              <div class="object-center">
-                <span>LESS, BUT BETTER</span>
-                <strong>Objects<br>with purpose.</strong>
-              </div>
-              <div class="object-shape"></div>
-              <div class="art-bottom"><span>CURATED DESIGN</span><span>CONCEPT 06</span></div>
-            </div>
-            <div class="project-info">
-              <div><span class="project-type">E-COMMERCE / DIGITAL</span><h3>OBJECT — Design store</h3></div>
-              <span class="project-arrow">↗</span>
-            </div>
-          </button>
+        <article class="project-card" data-category="digital brand">
+          <div class="project-art art-object">
+            <span class="art-corner">CONCEPT / 006</span>
+            <div class="object-orbit orbit-a"></div>
+            <div class="object-orbit orbit-b"></div>
+            <div class="object-core"></div>
+            <div class="object-title">OBJECT<br>STUDIO<span>®</span></div>
+            <div class="object-small">LESS, BUT BETTER.</div>
+          </div>
+          <div class="project-meta">
+            <div><span>06 / E-COMMERCE</span><h3>OBJECT — Product world</h3></div>
+            <span class="project-type">DIGITAL ↗</span>
+          </div>
         </article>
-
       </div>
 
-      <p class="concept-note">* Все представленные работы — демонстрационные концепции, созданные для показа направлений дизайна.</p>
+      <p class="concept-disclaimer">
+        * Все работы в этом разделе — демонстрационные концепты, а не реальные клиентские кейсы.
+      </p>
     </section>
 
     <!-- SERVICES -->
-    <section class="services section" id="services">
-      <div class="section-meta">
-        <span class="eyebrow">03 — WHAT WE DO</span>
-        <span class="meta-line"></span>
+    <section class="section services" id="services">
+      <div class="section-heading reveal">
+        <span class="eyebrow">03 / WHAT WE DO</span>
+        <span class="section-note">FROM IDEA TO EXECUTION</span>
       </div>
 
-      <div class="section-heading">
-        <h2>От идеи<br>до <span class="muted-text">результата.</span></h2>
-        <p>Комплексный подход к созданию цифрового присутствия вашего бизнеса.</p>
-      </div>
+      <h2 class="services-title reveal">OUR<br><span class="outline-text">EXPERTISE.</span></h2>
 
       <div class="service-list">
-        <article class="service">
-          <span class="service-number">01</span>
-          <div><h3>Website design</h3><p>Структура, визуальная концепция, UX/UI и дизайн интерфейсов.</p></div>
-          <span class="service-symbol">↗</span>
-        </article>
-
-        <article class="service">
-          <span class="service-number">02</span>
-          <div><h3>Web development</h3><p>Адаптивная разработка, интерактивность и техническая реализация.</p></div>
-          <span class="service-symbol">↗</span>
-        </article>
-
-        <article class="service">
-          <span class="service-number">03</span>
-          <div><h3>Brand identity</h3><p>Визуальный язык, типографика и цифровая подача бренда.</p></div>
-          <span class="service-symbol">↗</span>
-        </article>
-
-        <article class="service">
-          <span class="service-number">04</span>
-          <div><h3>Landing pages</h3><p>Посадочные страницы для продуктов, услуг и рекламных кампаний.</p></div>
-          <span class="service-symbol">↗</span>
-        </article>
-
-        <article class="service">
-          <span class="service-number">05</span>
-          <div><h3>Digital strategy</h3><p>Планирование структуры, контента и пользовательского пути.</p></div>
-          <span class="service-symbol">↗</span>
-        </article>
-      </div>
-    </section>
-
-    <!-- ABOUT / DIFFERENCE -->
-    <section class="difference section">
-      <div class="difference-visual">
-        <span class="difference-caption">THINK / CREATE / BUILD</span>
-        <div class="difference-mark">F<span>L</span></div>
-        <span class="difference-index">FRAME LAB® — 2026</span>
-      </div>
-
-      <div class="difference-content">
-        <span class="eyebrow">04 — OUR APPROACH</span>
-        <h2>Хороший дизайн<br>начинается<br><span class="muted-text">с понимания.</span></h2>
-        <p>
-          Мы не начинаем с выбора цвета или шрифта. Сначала разбираемся
-          в задаче, аудитории и целях проекта. Затем создаём структуру,
-          визуальную систему и реализуем её в работающем продукте.
-        </p>
-
-        <div class="values">
-          <div><strong>01</strong><span>Смысл важнее декора</span></div>
-          <div><strong>02</strong><span>Детали формируют впечатление</span></div>
-          <div><strong>03</strong><span>Удобство — часть дизайна</span></div>
+        <div class="service-row reveal">
+          <span class="service-num">01</span>
+          <div><h3>Brand identity</h3><p>Визуальный язык, логотипы, типографика и системы бренда.</p></div>
+          <span class="service-arrow">↗</span>
+        </div>
+        <div class="service-row reveal">
+          <span class="service-num">02</span>
+          <div><h3>Web design</h3><p>Современные сайты, интерфейсы и цифровые пространства.</p></div>
+          <span class="service-arrow">↗</span>
+        </div>
+        <div class="service-row reveal">
+          <span class="service-num">03</span>
+          <div><h3>Creative direction</h3><p>Концепции, арт-дирекшн и визуальные решения для брендов.</p></div>
+          <span class="service-arrow">↗</span>
+        </div>
+        <div class="service-row reveal">
+          <span class="service-num">04</span>
+          <div><h3>Digital content</h3><p>Графика, рекламные материалы и визуальный контент.</p></div>
+          <span class="service-arrow">↗</span>
         </div>
       </div>
     </section>
 
     <!-- PROCESS -->
-    <section class="process section" id="process">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">05 — HOW WE WORK</span>
-          <h2>Понятный<br><span class="muted-text">процесс.</span></h2>
-        </div>
-        <p>От первого сообщения до готового цифрового продукта.</p>
+    <section class="section process" id="process">
+      <div class="section-heading reveal">
+        <span class="eyebrow">04 / HOW WE WORK</span>
+        <span class="section-note">A CLEAR PROCESS</span>
       </div>
+
+      <h2 class="process-title reveal">IDEA INTO<br><span class="lime-text">REALITY.</span></h2>
 
       <div class="process-grid">
-        <article class="process-card">
-          <span>01 / DISCOVERY</span>
-          <div class="process-icon">⌕</div>
+        <div class="process-card reveal">
+          <span>01 / DISCOVER</span><div class="process-icon">⌕</div>
           <h3>Погружение</h3>
-          <p>Изучаем задачу, нишу, аудиторию и ожидания от проекта.</p>
-        </article>
-
-        <article class="process-card">
-          <span>02 / DIRECTION</span>
-          <div class="process-icon">✳</div>
+          <p>Изучаем задачу, аудиторию, рынок и цели проекта.</p>
+        </div>
+        <div class="process-card reveal">
+          <span>02 / STRATEGY</span><div class="process-icon">⌘</div>
           <h3>Концепция</h3>
-          <p>Определяем структуру, визуальное направление и функциональность.</p>
-        </article>
-
-        <article class="process-card">
-          <span>03 / BUILD</span>
-          <div class="process-icon">⌘</div>
-          <h3>Разработка</h3>
-          <p>Создаём дизайн и превращаем его в работающий сайт.</p>
-        </article>
-
-        <article class="process-card">
-          <span>04 / LAUNCH</span>
-          <div class="process-icon">↗</div>
+          <p>Формируем направление и определяем визуальную идею.</p>
+        </div>
+        <div class="process-card reveal">
+          <span>03 / CREATE</span><div class="process-icon">✳</div>
+          <h3>Создание</h3>
+          <p>Разрабатываем дизайн, контент и цифровые решения.</p>
+        </div>
+        <div class="process-card reveal">
+          <span>04 / LAUNCH</span><div class="process-icon">↗</div>
           <h3>Запуск</h3>
-          <p>Проверяем адаптивность, исправляем ошибки и готовим публикацию.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- CALCULATOR -->
-    <section class="calculator section" id="calculator">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">06 — PROJECT ESTIMATE</span>
-          <h2>Оценим вашу<br><span class="muted-text">идею.</span></h2>
-        </div>
-        <p>Выберите параметры проекта и получите предварительный диапазон стоимости.</p>
-      </div>
-
-      <div class="calculator-box">
-        <div class="calculator-controls">
-          <label>
-            Тип проекта
-            <select id="calc-type">
-              <option value="300">Landing page</option>
-              <option value="600">Корпоративный сайт</option>
-              <option value="450">Сайт-портфолио</option>
-              <option value="900">Интернет-магазин</option>
-            </select>
-          </label>
-
-          <label>
-            Уровень дизайна
-            <select id="calc-design">
-              <option value="1">Минималистичный</option>
-              <option value="1.3">Индивидуальный</option>
-              <option value="1.6">Премиальный</option>
-            </select>
-          </label>
-
-          <label>
-            Дополнительные функции
-            <select id="calc-features">
-              <option value="0">Без дополнительных функций</option>
-              <option value="100">Анимации и интерактивность</option>
-              <option value="200">Формы и дополнительные блоки</option>
-              <option value="350">Сложная функциональность</option>
-            </select>
-          </label>
-
-          <button class="button button-primary" id="calculate-button">Рассчитать ↗</button>
-        </div>
-
-        <div class="calculator-result">
-          <span>ПРЕДВАРИТЕЛЬНАЯ ОЦЕНКА</span>
-          <strong id="calc-result">—</strong>
-          <p>Условный ориентир в USD. Финальная стоимость определяется после обсуждения задачи.</p>
-          <a href="#brief" class="text-link">ОБСУДИТЬ ПРОЕКТ ↗</a>
+          <p>Проверяем детали, готовим материалы и передаём результат.</p>
         </div>
       </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="faq section" id="faq">
-      <div class="section-heading">
-        <div>
-          <span class="eyebrow">07 — FAQ</span>
-          <h2>Частые<br><span class="muted-text">вопросы.</span></h2>
-        </div>
-      </div>
-
-      <div class="faq-list">
-        <details>
-          <summary>Сколько времени занимает создание сайта?</summary>
-          <p>Срок зависит от объёма и сложности проекта. После обсуждения задачи мы сможем определить реалистичные сроки.</p>
-        </details>
-
-        <details>
-          <summary>Можно ли заказать только дизайн?</summary>
-          <p>Да. Можно обсудить отдельную разработку дизайна или полный цикл — от концепции до готового сайта.</p>
-        </details>
-
-        <details>
-          <summary>Будет ли сайт работать на телефонах?</summary>
-          <p>Да. Мы учитываем мобильные устройства, планшеты и компьютеры при проектировании и разработке.</p>
-        </details>
-
-        <details>
-          <summary>Как начать сотрудничество?</summary>
-          <p>Заполните бриф или напишите нам в Instagram. Мы обсудим задачу и определим следующие шаги.</p>
-        </details>
-
-        <details>
-          <summary>Можно ли доработать уже существующий сайт?</summary>
-          <p>Да. Можно обсудить редизайн, улучшение структуры, адаптивности и функциональности существующего проекта.</p>
-        </details>
-      </div>
-    </section>
-
-    <!-- BRIEF -->
-    <section class="brief section" id="brief">
-      <div class="brief-intro">
-        <span class="eyebrow">08 — START A PROJECT</span>
-        <h2>Расскажите<br>о своей <span class="muted-text">идее.</span></h2>
-        <p>
-          Заполните короткий бриф. Так нам будет проще понять вашу задачу
-          и подготовиться к обсуждению.
-        </p>
-        <div class="brief-note">NO COMMITMENT. JUST A CONVERSATION.</div>
-      </div>
-
-      <form class="brief-form" id="brief-form">
-        <label>
-          Какой сайт вам нужен?
-          <select name="type" required>
-            <option value="">Выберите тип проекта</option>
-            <option>Landing page</option>
-            <option>Корпоративный сайт</option>
-            <option>Интернет-магазин</option>
-            <option>Портфолио</option>
-            <option>Редизайн сайта</option>
-            <option>Другое</option>
-          </select>
-        </label>
-
-        <label>
-          Сфера бизнеса
-          <input name="niche" type="text" placeholder="Например: beauty, недвижимость, авто..." required>
-        </label>
-
-        <label>
-          Какой стиль вам близок?
-          <select name="style">
-            <option>Минимализм</option>
-            <option>Премиальный</option>
-            <option>Современный / технологичный</option>
-            <option>Яркий / креативный</option>
-            <option>Пока не определился</option>
-          </select>
-        </label>
-
-        <label>
-          Предполагаемый бюджет
-          <select name="budget">
-            <option>Пока обсуждается</option>
-            <option>До 300 USD</option>
-            <option>300–600 USD</option>
-            <option>600–1000 USD</option>
-            <option>От 1000 USD</option>
-          </select>
-        </label>
-
-        <label>
-          Что должно быть на сайте?
-          <textarea name="details" rows="4" placeholder="Опишите идею, функции и пожелания..."></textarea>
-        </label>
-
-        <label>
-          Как с вами связаться?
-          <input name="contact" type="text" placeholder="Instagram / Email / другой контакт" required>
-        </label>
-
-        <button class="button button-primary" type="submit">Сформировать заявку <span>↗</span></button>
-
-        <div class="brief-result" id="brief-result" hidden>
-          <span class="eyebrow">YOUR PROJECT BRIEF</span>
-          <pre id="brief-text"></pre>
-          <button type="button" class="button button-ghost" id="copy-brief">Скопировать заявку</button>
-          <p id="copy-status" aria-live="polite"></p>
-        </div>
-      </form>
     </section>
 
     <!-- CONTACT -->
-    <section class="contact section" id="contact">
-      <span class="eyebrow">09 — LET'S TALK</span>
-      <h2>Есть идея?<br><span>Создадим её.</span></h2>
-      <p>Расскажите нам о своём проекте. Начнём с разговора.</p>
-
-      <div class="contact-actions">
-        <a href="https://www.instagram.com/frame.lab.co/" target="_blank" rel="noopener noreferrer" class="button button-primary">Написать в Instagram ↗</a>
-        <a href="#brief" class="button button-ghost">Заполнить бриф</a>
+    <section class="contact" id="contact">
+      <div class="contact-orb"></div>
+      <div class="contact-content reveal">
+        <span class="eyebrow">05 / START SOMETHING</span>
+        <h2>LET'S MAKE<br><span>SOMETHING</span><br>MATTER<span class="lime-text">.</span></h2>
+        <p>Есть идея или задача? Давайте обсудим, что можно создать вместе.</p>
+        <a href="https://www.instagram.com/frame.lab.co/" target="_blank" rel="noopener noreferrer" class="contact-button">
+          НАПИСАТЬ В INSTAGRAM <span>↗</span>
+        </a>
       </div>
-
-      <div class="contact-bottom">
-        <span>FRAME LAB® — DIGITAL AGENCY</span>
-        <span>DESIGN WITH PURPOSE.</span>
-      </div>
+      <div class="contact-side">FRAME LAB®<br>INDEPENDENT BY DESIGN.</div>
     </section>
-
   </main>
 
-  <!-- PROJECT MODAL -->
-  <div class="modal" id="project-modal" aria-hidden="true">
-    <div class="modal-backdrop" data-close></div>
-
-    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <button class="modal-close" type="button" data-close aria-label="Закрыть">×</button>
-      <span class="eyebrow">PROJECT CONCEPT</span>
-      <h2 id="modal-title"></h2>
-      <p id="modal-description"></p>
-      <div class="modal-preview" id="modal-preview"></div>
-      <p class="modal-disclaimer">Демонстрационная концепция. Не является реальным клиентским проектом.</p>
-      <a href="#brief" class="button button-primary" id="modal-brief">Обсудить похожий проект ↗</a>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
   <footer class="footer">
     <a href="#home" class="logo">FRAME<span>LAB</span><sup>®</sup></a>
     <span>© <span id="year"></span> FRAME LAB. ALL RIGHTS RESERVED.</span>
     <a href="https://www.instagram.com/frame.lab.co/" target="_blank" rel="noopener noreferrer">INSTAGRAM ↗</a>
   </footer>
-
 </body>
 </html>
