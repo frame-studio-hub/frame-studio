@@ -1,5 +1,5 @@
 /* =========================================
-   FRAME LAB — COMPLETE PREMIUM STYLESHEET
+   FRAME LAB — PREMIUM DESIGN SYSTEM
 ========================================= */
 
 :root {
@@ -121,6 +121,8 @@ section {
   text-transform: uppercase;
 }
 
+/* HEADINGS */
+
 .section-title {
   max-width: 850px;
   margin-bottom: 28px;
@@ -150,6 +152,7 @@ section {
   width: 0;
   height: 100%;
   background: var(--lime);
+  transition: width .08s linear;
 }
 
 /* NAVIGATION */
@@ -321,8 +324,8 @@ section {
 .ticker-star {
   width: 17px;
   height: 17px;
-  fill: var(--dark);
   flex: 0 0 auto;
+  fill: var(--dark);
 }
 
 @keyframes tickerMove {
@@ -403,7 +406,9 @@ section {
   overflow: hidden;
   border: 1px solid var(--line);
   background: var(--dark-card);
-  transition: transform .5s ease, border-color .4s ease;
+  transition:
+    transform .5s ease,
+    border-color .4s ease;
 }
 
 .project[hidden] {
@@ -469,6 +474,7 @@ section {
   color: var(--white);
   text-align: left;
   font-size: 12px;
+  transition: color .25s ease;
 }
 
 .project-open:hover {
@@ -576,7 +582,11 @@ section {
   justify-content: center;
   border: 1px solid var(--line);
   background:
-    radial-gradient(circle at 50% 50%, rgba(200,243,106,.15), transparent 55%),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(200,243,106,.15),
+      transparent 55%
+    ),
     var(--dark-soft);
 }
 
@@ -601,6 +611,14 @@ section {
   padding: 25px;
   border: 1px solid var(--line);
   background: var(--dark-soft);
+  transition:
+    border-color .3s ease,
+    transform .3s ease;
+}
+
+.process-item:hover {
+  transform: translateY(-5px);
+  border-color: rgba(200,243,106,.5);
 }
 
 .process-item h3 {
@@ -640,8 +658,8 @@ section {
 
 .faq-list summary::after {
   position: absolute;
-  right: 5px;
   top: 50%;
+  right: 5px;
   color: var(--lime);
   content: "+";
   font-size: 25px;
@@ -712,6 +730,7 @@ section {
   background: var(--dark-soft);
   color: var(--white);
   outline: none;
+  transition: border-color .25s ease;
 }
 
 .brief-form textarea {
@@ -740,6 +759,7 @@ section {
   background: var(--lime);
   color: var(--dark);
   font-weight: 800;
+  transition: .3s ease;
 }
 
 .brief-form button:hover {
@@ -764,6 +784,7 @@ section {
   font-size: 13px;
   line-height: 1.9;
   white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 #copy-brief {
@@ -773,11 +794,18 @@ section {
   background: transparent;
   color: var(--lime);
   font-size: 12px;
+  transition: .25s ease;
+}
+
+#copy-brief:hover {
+  background: var(--lime);
+  color: var(--dark);
 }
 
 #copy-status {
   color: var(--lime);
   font-size: 12px;
+  line-height: 1.6;
 }
 
 /* CONTACT */
@@ -825,6 +853,7 @@ section {
 }
 
 .contact-links {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -904,6 +933,7 @@ footer a:hover {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -938,6 +968,7 @@ footer a:hover {
   background: transparent;
   color: var(--white);
   font-size: 20px;
+  transition: .25s ease;
 }
 
 .modal-close:hover {
@@ -955,13 +986,22 @@ footer a:hover {
 
 .modal-contact {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 20px;
-  padding: 14px 20px;
+  min-height: 46px;
+  padding: 0 20px;
   border: 1px solid var(--lime);
   background: var(--lime);
   color: var(--dark);
   font-size: 12px;
   font-weight: 800;
+  transition: .3s ease;
+}
+
+.modal-contact:hover {
+  background: transparent;
+  color: var(--lime);
 }
 
 /* ANIMATIONS */
@@ -971,6 +1011,7 @@ footer a:hover {
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -980,7 +1021,9 @@ footer a:hover {
 .reveal {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity .7s ease, transform .7s ease;
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
 }
 
 .reveal.is-visible {
@@ -988,7 +1031,7 @@ footer a:hover {
   transform: translateY(0);
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE — TABLET */
 
 @media (max-width: 900px) {
   section {
@@ -1014,7 +1057,13 @@ footer a:hover {
     align-items: flex-start;
     flex-direction: column;
   }
+
+  #main-nav {
+    gap: 18px;
+  }
 }
+
+/* RESPONSIVE — MOBILE */
 
 @media (max-width: 768px) {
   .container,
@@ -1058,6 +1107,10 @@ footer a:hover {
     padding: 17px 0;
     border-bottom: 1px solid var(--line);
     font-size: 15px;
+  }
+
+  #main-nav a::after {
+    display: none;
   }
 
   .nav-cta {
@@ -1126,6 +1179,8 @@ footer a:hover {
   }
 }
 
+/* RESPONSIVE — SMALL PHONES */
+
 @media (max-width: 480px) {
   .container,
   section,
@@ -1187,8 +1242,21 @@ footer a:hover {
     padding: 10px;
   }
 
+  .modal-panel {
+    max-height: 94vh;
+  }
+
   #demo-frame {
     min-height: 380px;
+  }
+
+  .modal-header {
+    gap: 10px;
+  }
+
+  .modal-close {
+    width: 38px;
+    height: 38px;
   }
 }
 
