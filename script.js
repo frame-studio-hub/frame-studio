@@ -1,339 +1,200 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const $ = (selector, parent = document) => parent.querySelector(selector);
-  const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-  // CURRENT YEAR
-  const year = $("#current-year");
+  // YEAR
+  const year = $("#year");
   if (year) year.textContent = new Date().getFullYear();
 
   // MOBILE MENU
-  const menuButton = $(".menu");
-  const mainNav = $("#main-nav");
+  const menuToggle = $("#menu-toggle");
+  const nav = $("#nav");
 
   function closeMenu() {
-    if (!menuButton || !mainNav) return;
-
-    menuButton.setAttribute("aria-expanded", "false");
-    menuButton.setAttribute("aria-label", "Открыть меню");
-
-    mainNav.classList.remove("is-open");
+    menuToggle?.classList.remove("active");
+    nav?.classList.remove("open");
+    menuToggle?.setAttribute("aria-expanded", "false");
+    menuToggle?.setAttribute("aria-label", "Открыть меню");
     document.body.classList.remove("menu-open");
   }
 
-  menuButton?.addEventListener("click", () => {
-    const isOpen = menuButton.getAttribute("aria-expanded") === "true";
-    const nextState = !isOpen;
+  menuToggle?.addEventListener("click", () => {
+    const open = !nav.classList.contains("open");
 
-    menuButton.setAttribute("aria-expanded", String(nextState));
-    menuButton.setAttribute(
-      "aria-label",
-      nextState ? "Закрыть меню" : "Открыть меню"
-    );
-
-    mainNav?.classList.toggle("is-open", nextState);
-    document.body.classList.toggle("menu-open", nextState);
+    nav.classList.toggle("open", open);
+    menuToggle.classList.toggle("active", open);
+    menuToggle.setAttribute("aria-expanded", String(open));
+    menuToggle.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+    document.body.classList.toggle("menu-open", open);
   });
 
-  $$("#main-nav a").forEach(link => {
+  $$("#nav a").forEach(link => {
     link.addEventListener("click", closeMenu);
   });
 
+  // SCROLL PROGRESS
+  const progressBar = $("#progress-bar");
+
+  function updateProgress() {
+    if (!progressBar) return;
+
+    const maxScroll =
+      document.documentElement.scrollHeight - window.innerHeight;
+
+    const progress = maxScroll > 0
+      ? (window.scrollY / maxScroll) * 100
+      : 0;
+
+    progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+  }
+
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  window.addEventListener("resize", updateProgress);
+  updateProgress();
+
   // PROJECT FILTERS
-  const filterButtons = $$(".filter");
+  const filters = $$(".filter");
   const projects = $$(".project");
 
-  filterButtons.forEach(button => {
+  filters.forEach(button => {
     button.addEventListener("click", () => {
-      const filter = button.dataset.filter;
+      const category = button.dataset.filter;
 
-      filterButtons.forEach(item => {
-        const active = item === button;
-
-        item.classList.toggle("active", active);
-        item.setAttribute("aria-pressed", String(active));
+      filters.forEach(filter => {
+        const active = filter === button;
+        filter.classList.toggle("active", active);
+        filter.setAttribute("aria-pressed", String(active));
       });
 
       projects.forEach(project => {
-        const matches =
-          filter === "all" ||
-          project.dataset.category === filter;
-
-        project.hidden = !matches;
+        project.hidden =
+          category !== "all" &&
+          project.dataset.category !== category;
       });
     });
   });
 
-  // PROJECT DEMO CONTENT
-  const demoTemplates = {
+  // PROJECT CONTENT
+  const concepts = {
     beauty: {
-      title: "ATELIER / BEAUTY",
-      label: "BEAUTY STUDIO",
-      heading: "Beauty<br><em>in detail.</em>",
-      description: "Премиальное пространство красоты.",
-      button: "ЗАПИСАТЬСЯ",
-      colors: ["#e8ded1", "#9b7864"],
-      text: "Откройте пространство, где внимание к деталям становится частью красоты."
+      title: "ATELIER — Beauty studio",
+      description: "Концепция цифрового пространства для премиальной студии красоты.",
+      label: "BEAUTY / BRAND",
+      background: "#e8ded1",
+      foreground: "#30271f",
+      accent: "#9b7864",
+      heading: "Beauty in detail."
     },
 
     auto: {
-      title: "VANTA / AUTO",
-      label: "PERFORMANCE STUDIO",
-      heading: "MOVE<br><em>BEYOND.</em>",
-      description: "Детейлинг и уход за автомобилями.",
-      button: "НАШИ УСЛУГИ",
-      colors: ["#151816", "#c8f36a"],
-      text: "Точность, технологии и внимание к каждой детали."
+      title: "VANTA — Automotive",
+      description: "Концепция сайта для автомобильного детейлинга и ухода за автомобилями.",
+      label: "AUTOMOTIVE",
+      background: "#151816",
+      foreground: "#f1f1eb",
+      accent: "#c8f36a",
+      heading: "NO LIMITS."
     },
 
     cafe: {
-      title: "MORNING / HOSPITALITY",
-      label: "COFFEE · BAKERY",
-      heading: "Slow<br><em>down.</em>",
-      description: "Кофе, выпечка и хорошее настроение.",
-      button: "НАШЕ МЕНЮ",
-      colors: ["#e8d8bd", "#9c6843"],
-      text: "Начните день с хорошего кофе и времени для себя."
+      title: "MORNING — Coffee & bakery",
+      description: "Концепция сайта кофейни с акцентом на атмосферу и визуальную подачу.",
+      label: "HOSPITALITY",
+      background: "#e8d8bd",
+      foreground: "#33261b",
+      accent: "#9c6843",
+      heading: "Slow down."
     },
 
     architecture: {
-      title: "NØR / ARCHITECTURE",
-      label: "ARCHITECTURE STUDIO",
-      heading: "Spaces<br><em>for living.</em>",
-      description: "Архитектура, в которой есть смысл.",
-      button: "СМОТРЕТЬ ПРОЕКТЫ",
-      colors: ["#d9d9d2", "#65665e"],
-      text: "Создаём пространства, в которых форма встречается с функцией."
+      title: "NØR — Architecture",
+      description: "Концепция цифрового портфолио архитектурной студии.",
+      label: "ARCHITECTURE",
+      background: "#d9d9d2",
+      foreground: "#292a26",
+      accent: "#65665e",
+      heading: "Space to live."
     },
 
     fitness: {
-      title: "FORM / FITNESS",
-      label: "TRAINING CLUB",
-      heading: "BUILT<br><em>BY YOU.</em>",
-      description: "Тренировки с продуманным подходом.",
-      button: "НАЧАТЬ ТРЕНИРОВКИ",
-      colors: ["#d8f06e", "#171914"],
-      text: "Движение, дисциплина и работа над собой."
+      title: "FORM — Training club",
+      description: "Концепция сайта фитнес-клуба с динамичной визуальной системой.",
+      label: "FITNESS",
+      background: "#d8f06e",
+      foreground: "#171914",
+      accent: "#171914",
+      heading: "Built by you."
     },
 
     object: {
-      title: "OBJECT / E-COMMERCE",
-      label: "CURATED DESIGN",
-      heading: "Objects<br><em>with purpose.</em>",
-      description: "Предметы, которые меняют пространство.",
-      button: "СМОТРЕТЬ КОЛЛЕКЦИЮ",
-      colors: ["#e4dfd5", "#776e5f"],
-      text: "Подборка предметного дизайна с характером и смыслом."
+      title: "OBJECT — Design store",
+      description: "Концепция интернет-магазина предметного дизайна.",
+      label: "E-COMMERCE",
+      background: "#e4dfd5",
+      foreground: "#292820",
+      accent: "#776e5f",
+      heading: "Objects with purpose."
     }
   };
 
-  function createDemo(data) {
-    const [background, accent] = data.colors;
-
-    return `<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${data.title}</title>
-
-<style>
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: ${background};
-  color: #171914;
-  font-family: Arial, sans-serif;
-}
-
-.page {
-  position: relative;
-  min-height: 650px;
-  padding: 28px 7%;
-  overflow: hidden;
-}
-
-.top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #7775;
-  font-size: 11px;
-  letter-spacing: 2px;
-}
-
-.hero {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 470px;
-}
-
-h1 {
-  margin: 30px 0;
-  font-size: clamp(54px, 10vw, 110px);
-  line-height: .88;
-  letter-spacing: -.08em;
-  font-weight: 700;
-}
-
-h1 em {
-  font-family: Georgia, serif;
-  font-weight: 400;
-}
-
-p {
-  max-width: 360px;
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-.demo-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  align-self: flex-start;
-  margin-top: 25px;
-  padding: 16px 22px;
-  background: ${accent};
-  color: ${background};
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.bottom {
-  position: absolute;
-  right: 7%;
-  bottom: 22px;
-  left: 7%;
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-.shape {
-  position: absolute;
-  top: 30%;
-  right: -50px;
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background: ${accent};
-  opacity: .18;
-  filter: blur(2px);
-}
-
-@media (max-width: 520px) {
-  .page {
-    min-height: 560px;
-    padding: 22px 6%;
-  }
-
-  .top {
-    font-size: 9px;
-    letter-spacing: 1px;
-  }
-
-  .hero {
-    min-height: 390px;
-  }
-
-  h1 {
-    font-size: clamp(48px, 13vw, 75px);
-  }
-
-  .bottom {
-    right: 6%;
-    left: 6%;
-    font-size: 8px;
-  }
-}
-</style>
-</head>
-
-<body>
-  <div class="page">
-    <div class="top">
-      <b>${data.title}</b>
-      <span>${data.label}</span>
-    </div>
-
-    <div class="shape"></div>
-
-    <main class="hero">
-      <h1>${data.heading}</h1>
-      <p>${data.description}<br>${data.text}</p>
-      <span class="demo-button">${data.button} ↗</span>
-    </main>
-
-    <div class="bottom">
-      <span>CONCEPT WEBSITE</span>
-      <span>DESIGNED BY FRAME LAB®</span>
-    </div>
-  </div>
-</body>
-</html>`;
-  }
-
-  // MODAL
+  // PROJECT MODAL
   const modal = $("#project-modal");
   const modalTitle = $("#modal-title");
-  const modalDesc = $("#modal-desc");
-  const demoFrame = $("#demo-frame");
+  const modalDescription = $("#modal-description");
+  const modalPreview = $("#modal-preview");
+  const modalBrief = $("#modal-brief");
 
-  function openModal(project) {
-    if (!modal || !project) return;
+  function openProject(project) {
+    const data = concepts[project.dataset.demo];
 
-    const category = project.dataset.demoCategory;
-    const demo = demoTemplates[category];
+    if (!data || !modal) return;
 
-    if (!demo) return;
+    modalTitle.textContent = data.title;
+    modalDescription.textContent = data.description;
 
-    if (modalTitle) {
-      modalTitle.textContent = project.dataset.title || demo.title;
-    }
+    modalPreview.innerHTML = `
+      <div class="concept-window" style="
+        --concept-bg:${data.background};
+        --concept-fg:${data.foreground};
+        --concept-accent:${data.accent};
+      ">
+        <div class="concept-top">
+          <strong>${data.label}</strong>
+          <span>CONCEPT WEBSITE</span>
+        </div>
+        <div class="concept-main">
+          <span>FRAME LAB® PRESENTS</span>
+          <h3>${data.heading}</h3>
+          <div class="concept-line"></div>
+          <p>Digital experience / Creative direction / Web design</p>
+        </div>
+        <div class="concept-bottom">
+          <span>DESIGNED WITH PURPOSE</span>
+          <span>01 — 06</span>
+        </div>
+      </div>
+    `;
 
-    if (modalDesc) {
-      modalDesc.textContent = project.dataset.desc || demo.description;
-    }
-
-    if (demoFrame) {
-      demoFrame.srcdoc = createDemo(demo);
-    }
-
-    modal.classList.add("is-open");
+    modal.classList.add("open");
     modal.setAttribute("aria-hidden", "false");
     document.body.classList.add("modal-open");
-
+    modalBrief?.setAttribute("href", "#brief");
     $(".modal-close")?.focus();
   }
 
   function closeModal() {
-    if (!modal || !modal.classList.contains("is-open")) return;
+    if (!modal) return;
 
-    modal.classList.remove("is-open");
+    modal.classList.remove("open");
     modal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
-
-    if (demoFrame) {
-      demoFrame.srcdoc = "";
-    }
   }
 
   $$(".project-open").forEach(button => {
     button.addEventListener("click", () => {
-      openModal(button.closest(".project"));
+      openProject(button.closest(".project"));
     });
   });
 
@@ -341,9 +202,9 @@ p {
     element.addEventListener("click", closeModal);
   });
 
-  $(".modal-contact")?.addEventListener("click", closeModal);
+  modalBrief?.addEventListener("click", closeModal);
 
-  // KEYBOARD CONTROLS
+  // KEYBOARD
   document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
       closeMenu();
@@ -351,36 +212,33 @@ p {
     }
   });
 
-  // SCROLL PROGRESS
-  const progressBar = $("#scroll-progress-bar");
+  // CALCULATOR
+  const calcType = $("#calc-type");
+  const calcDesign = $("#calc-design");
+  const calcFeatures = $("#calc-features");
+  const calcButton = $("#calculate-button");
+  const calcResult = $("#calc-result");
 
-  function updateScrollProgress() {
-    if (!progressBar) return;
+  calcButton?.addEventListener("click", () => {
+    const base = Number(calcType?.value || 0);
+    const multiplier = Number(calcDesign?.value || 1);
+    const extra = Number(calcFeatures?.value || 0);
 
-    const scrollable =
-      document.documentElement.scrollHeight - window.innerHeight;
+    const total = Math.round(base * multiplier + extra);
+    const min = Math.round(total * 0.9);
+    const max = Math.round(total * 1.1);
 
-    const progress =
-      scrollable > 0
-        ? (window.scrollY / scrollable) * 100
-        : 0;
-
-    progressBar.style.width =
-      `${Math.min(100, Math.max(0, progress))}%`;
-  }
-
-  window.addEventListener("scroll", updateScrollProgress, {
-    passive: true
+    if (calcResult) {
+      calcResult.textContent = `$${min}–$${max}`;
+      calcResult.classList.remove("result-pop");
+      void calcResult.offsetWidth;
+      calcResult.classList.add("result-pop");
+    }
   });
-
-  window.addEventListener("resize", updateScrollProgress);
-
-  updateScrollProgress();
 
   // BRIEF GENERATOR
   const briefForm = $("#brief-form");
-  const briefOutput = $("#brief-output");
-  const briefEmpty = $("#brief-empty");
+  const briefResult = $("#brief-result");
   const briefText = $("#brief-text");
   const copyButton = $("#copy-brief");
   const copyStatus = $("#copy-status");
@@ -392,130 +250,96 @@ p {
 
     if (!briefForm.reportValidity()) return;
 
-    const formData = new FormData(briefForm);
-
-    const get = name => {
-      const value = String(formData.get(name) || "").trim();
-      return value || "Не указано";
-    };
+    const data = new FormData(briefForm);
+    const get = name => String(data.get(name) || "").trim() || "Не указано";
 
     generatedBrief = [
-      "НОВЫЙ ПРОЕКТ ДЛЯ FRAME LAB®",
+      "НОВАЯ ЗАЯВКА — FRAME LAB®",
       "",
       `Тип проекта: ${get("type")}`,
-      `Сфера: ${get("niche")}`,
+      `Сфера бизнеса: ${get("niche")}`,
       `Стиль: ${get("style")}`,
       `Бюджет: ${get("budget")}`,
-      `Необходимые функции: ${get("functions")}`,
-      `Дополнительная информация: ${get("details")}`,
+      `Описание проекта: ${get("details")}`,
       `Контакт: ${get("contact")}`,
       "",
       "Сформировано на сайте FRAME LAB."
     ].join("\n");
 
-    if (briefText) {
-      briefText.textContent = generatedBrief;
+    if (briefText) briefText.textContent = generatedBrief;
+    if (briefResult) {
+      briefResult.hidden = false;
+      briefResult.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
 
-    if (briefEmpty) {
-      briefEmpty.hidden = true;
-    }
-
-    if (briefOutput) {
-      briefOutput.hidden = false;
-
-      briefOutput.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
-      });
-    }
-
-    if (copyButton) {
-      copyButton.textContent = "СКОПИРОВАТЬ БРИФ";
-    }
-
-    if (copyStatus) {
-      copyStatus.textContent = "";
-    }
+    if (copyStatus) copyStatus.textContent = "";
   });
 
-  // COPY BRIEF
   copyButton?.addEventListener("click", async () => {
     if (!generatedBrief) return;
 
-    let copied = false;
+    let success = false;
 
     try {
       await navigator.clipboard.writeText(generatedBrief);
-      copied = true;
+      success = true;
     } catch {
-      const temporary = document.createElement("textarea");
-
-      temporary.value = generatedBrief;
-      temporary.setAttribute("readonly", "");
-      temporary.style.position = "fixed";
-      temporary.style.opacity = "0";
-
-      document.body.appendChild(temporary);
-      temporary.select();
+      const textarea = document.createElement("textarea");
+      textarea.value = generatedBrief;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
 
       try {
-        copied = document.execCommand("copy");
+        success = document.execCommand("copy");
       } catch {
-        copied = false;
+        success = false;
       }
 
-      temporary.remove();
+      textarea.remove();
     }
 
-    if (copied) {
-      if (copyStatus) {
-        copyStatus.textContent = "Бриф успешно скопирован.";
-      }
+    if (copyStatus) {
+      copyStatus.textContent = success
+        ? "Заявка скопирована."
+        : "Не удалось скопировать. Выделите текст вручную.";
+    }
 
+    if (success) {
       copyButton.textContent = "СКОПИРОВАНО ✓";
-    } else {
-      if (copyStatus) {
-        copyStatus.textContent =
-          "Не удалось скопировать. Выделите текст вручную.";
-      }
     }
   });
 
   // FAQ
   $$(".faq-list details").forEach(item => {
     item.addEventListener("toggle", () => {
-      const symbol = $("summary span", item);
+      if (!item.open) return;
 
-      if (symbol) {
-        symbol.textContent = item.open ? "−" : "+";
-      }
+      $$(".faq-list details").forEach(other => {
+        if (other !== item) other.open = false;
+      });
     });
   });
 
-  // REVEAL ANIMATIONS
-  const revealElements = $$(".section, .project, .reference-card, .step, .service");
+  // SCROLL REVEAL
+  const revealElements = $$(".section, .project, .service, .process-card");
 
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
 
-        entry.target.classList.add("is-visible");
+        entry.target.classList.add("visible");
         observer.unobserve(entry.target);
       });
-    }, {
-      threshold: 0.08,
-      rootMargin: "0px 0px -35px 0px"
-    });
+    }, { threshold: 0.08 });
 
     revealElements.forEach(element => {
       element.classList.add("reveal");
       observer.observe(element);
     });
   } else {
-    revealElements.forEach(element => {
-      element.classList.add("is-visible");
-    });
+    revealElements.forEach(element => element.classList.add("visible"));
   }
 });
