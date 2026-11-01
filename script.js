@@ -1,4 +1,3 @@
-
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -15,30 +14,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function closeMenu() {
     if (!menuButton || !mainNav) return;
+
     menuButton.setAttribute("aria-expanded", "false");
     menuButton.setAttribute("aria-label", "Открыть меню");
+
     mainNav.classList.remove("is-open");
     document.body.classList.remove("menu-open");
   }
 
   menuButton?.addEventListener("click", () => {
     const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+    const nextState = !isOpen;
 
-    menuButton.setAttribute("aria-expanded", String(!isOpen));
-    menuButton.setAttribute("aria-label", isOpen ? "Открыть меню" : "Закрыть меню");
-    mainNav?.classList.toggle("is-open", !isOpen);
-    document.body.classList.toggle("menu-open", !isOpen);
+    menuButton.setAttribute("aria-expanded", String(nextState));
+    menuButton.setAttribute(
+      "aria-label",
+      nextState ? "Закрыть меню" : "Открыть меню"
+    );
+
+    mainNav?.classList.toggle("is-open", nextState);
+    document.body.classList.toggle("menu-open", nextState);
   });
 
   $$("#main-nav a").forEach(link => {
     link.addEventListener("click", closeMenu);
-  });
-
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape") {
-      closeMenu();
-      closeModal();
-    }
   });
 
   // PROJECT FILTERS
@@ -51,20 +50,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
       filterButtons.forEach(item => {
         const active = item === button;
+
         item.classList.toggle("active", active);
         item.setAttribute("aria-pressed", String(active));
       });
 
       projects.forEach(project => {
         const matches =
-          filter === "all" || project.dataset.category === filter;
+          filter === "all" ||
+          project.dataset.category === filter;
 
         project.hidden = !matches;
       });
     });
   });
 
-  // PROJECT DEMOS
+  // PROJECT DEMO CONTENT
   const demoTemplates = {
     beauty: {
       title: "ATELIER / BEAUTY",
@@ -75,6 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
       colors: ["#e8ded1", "#9b7864"],
       text: "Откройте пространство, где внимание к деталям становится частью красоты."
     },
+
     auto: {
       title: "VANTA / AUTO",
       label: "PERFORMANCE STUDIO",
@@ -84,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       colors: ["#151816", "#c8f36a"],
       text: "Точность, технологии и внимание к каждой детали."
     },
+
     cafe: {
       title: "MORNING / HOSPITALITY",
       label: "COFFEE · BAKERY",
@@ -93,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
       colors: ["#e8d8bd", "#9c6843"],
       text: "Начните день с хорошего кофе и времени для себя."
     },
+
     architecture: {
       title: "NØR / ARCHITECTURE",
       label: "ARCHITECTURE STUDIO",
@@ -102,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
       colors: ["#d9d9d2", "#65665e"],
       text: "Создаём пространства, в которых форма встречается с функцией."
     },
+
     fitness: {
       title: "FORM / FITNESS",
       label: "TRAINING CLUB",
@@ -111,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       colors: ["#d8f06e", "#171914"],
       text: "Движение, дисциплина и работа над собой."
     },
+
     object: {
       title: "OBJECT / E-COMMERCE",
       label: "CURATED DESIGN",
@@ -131,37 +137,151 @@ document.addEventListener("DOMContentLoaded", () => {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${data.title}</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:${background};color:#171914;font-family:Arial,sans-serif}
-.page{min-height:650px;padding:28px 7%;position:relative;overflow:hidden}
-.top{display:flex;justify-content:space-between;gap:15px;align-items:center;
-font-size:11px;letter-spacing:2px;border-bottom:1px solid #7775;padding-bottom:20px}
-.hero{min-height:470px;display:flex;flex-direction:column;justify-content:center;
-position:relative;z-index:1}
-h1{font-size:clamp(54px,10vw,110px);line-height:.88;letter-spacing:-.08em;
-font-weight:700;margin:30px 0}
-h1 em{font-family:Georgia,serif;font-weight:400}
-p{font-size:15px;line-height:1.7;max-width:360px}
-button{margin-top:25px;padding:16px 22px;border:0;background:${accent};
-color:${background};font-weight:700;letter-spacing:1px;cursor:pointer;align-self:flex-start}
-.bottom{position:absolute;bottom:22px;left:7%;right:7%;display:flex;
-justify-content:space-between;font-size:10px;letter-spacing:1px}
-.shape{position:absolute;width:260px;height:260px;border-radius:50%;
-background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: ${background};
+  color: #171914;
+  font-family: Arial, sans-serif;
+}
+
+.page {
+  position: relative;
+  min-height: 650px;
+  padding: 28px 7%;
+  overflow: hidden;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #7775;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 470px;
+}
+
+h1 {
+  margin: 30px 0;
+  font-size: clamp(54px, 10vw, 110px);
+  line-height: .88;
+  letter-spacing: -.08em;
+  font-weight: 700;
+}
+
+h1 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+}
+
+p {
+  max-width: 360px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.demo-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  margin-top: 25px;
+  padding: 16px 22px;
+  background: ${accent};
+  color: ${background};
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.bottom {
+  position: absolute;
+  right: 7%;
+  bottom: 22px;
+  left: 7%;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.shape {
+  position: absolute;
+  top: 30%;
+  right: -50px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: ${accent};
+  opacity: .18;
+  filter: blur(2px);
+}
+
+@media (max-width: 520px) {
+  .page {
+    min-height: 560px;
+    padding: 22px 6%;
+  }
+
+  .top {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+
+  .hero {
+    min-height: 390px;
+  }
+
+  h1 {
+    font-size: clamp(48px, 13vw, 75px);
+  }
+
+  .bottom {
+    right: 6%;
+    left: 6%;
+    font-size: 8px;
+  }
+}
 </style>
 </head>
+
 <body>
-<div class="page">
-<div class="top"><b>${data.title}</b><span>${data.label}</span></div>
-<div class="shape"></div>
-<main class="hero">
-<h1>${data.heading}</h1>
-<p>${data.description}<br>${data.text}</p>
-<button type="button" onclick="this.textContent='СПАСИБО ЗА ИНТЕРЕС'">${data.button} ↗</button>
-</main>
-<div class="bottom"><span>CONCEPT WEBSITE</span><span>DESIGNED BY FRAME LAB®</span></div>
-</div>
+  <div class="page">
+    <div class="top">
+      <b>${data.title}</b>
+      <span>${data.label}</span>
+    </div>
+
+    <div class="shape"></div>
+
+    <main class="hero">
+      <h1>${data.heading}</h1>
+      <p>${data.description}<br>${data.text}</p>
+      <span class="demo-button">${data.button} ↗</span>
+    </main>
+
+    <div class="bottom">
+      <span>CONCEPT WEBSITE</span>
+      <span>DESIGNED BY FRAME LAB®</span>
+    </div>
+  </div>
 </body>
 </html>`;
   }
@@ -171,7 +291,6 @@ background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
   const modalTitle = $("#modal-title");
   const modalDesc = $("#modal-desc");
   const demoFrame = $("#demo-frame");
-  const modalPanel = $(".modal-panel");
 
   function openModal(project) {
     if (!modal || !project) return;
@@ -181,9 +300,17 @@ background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
 
     if (!demo) return;
 
-    if (modalTitle) modalTitle.textContent = project.dataset.title || demo.title;
-    if (modalDesc) modalDesc.textContent = project.dataset.desc || demo.description;
-    if (demoFrame) demoFrame.srcdoc = createDemo(demo);
+    if (modalTitle) {
+      modalTitle.textContent = project.dataset.title || demo.title;
+    }
+
+    if (modalDesc) {
+      modalDesc.textContent = project.dataset.desc || demo.description;
+    }
+
+    if (demoFrame) {
+      demoFrame.srcdoc = createDemo(demo);
+    }
 
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
@@ -199,7 +326,9 @@ background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
     modal.setAttribute("aria-hidden", "true");
     document.body.classList.remove("modal-open");
 
-    if (demoFrame) demoFrame.srcdoc = "";
+    if (demoFrame) {
+      demoFrame.srcdoc = "";
+    }
   }
 
   $$(".project-open").forEach(button => {
@@ -212,8 +341,14 @@ background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
     element.addEventListener("click", closeModal);
   });
 
-  $(".modal-contact")?.addEventListener("click", () => {
-    closeModal();
+  $(".modal-contact")?.addEventListener("click", closeModal);
+
+  // KEYBOARD CONTROLS
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeMenu();
+      closeModal();
+    }
   });
 
   // SCROLL PROGRESS
@@ -226,13 +361,20 @@ background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
       document.documentElement.scrollHeight - window.innerHeight;
 
     const progress =
-      scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+      scrollable > 0
+        ? (window.scrollY / scrollable) * 100
+        : 0;
 
-    progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    progressBar.style.width =
+      `${Math.min(100, Math.max(0, progress))}%`;
   }
 
-  window.addEventListener("scroll", updateScrollProgress, { passive: true });
+  window.addEventListener("scroll", updateScrollProgress, {
+    passive: true
+  });
+
   window.addEventListener("resize", updateScrollProgress);
+
   updateScrollProgress();
 
   // BRIEF GENERATOR
@@ -252,8 +394,10 @@ background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
 
     const formData = new FormData(briefForm);
 
-    const get = name =>
-      String(formData.get(name) || "").trim() || "Не указано";
+    const get = name => {
+      const value = String(formData.get(name) || "").trim();
+      return value || "Не указано";
+    };
 
     generatedBrief = [
       "НОВЫЙ ПРОЕКТ ДЛЯ FRAME LAB®",
@@ -269,48 +413,83 @@ background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
       "Сформировано на сайте FRAME LAB."
     ].join("\n");
 
-    if (briefText) briefText.textContent = generatedBrief;
-    if (briefEmpty) briefEmpty.hidden = true;
-    if (briefOutput) briefOutput.hidden = false;
+    if (briefText) {
+      briefText.textContent = generatedBrief;
+    }
 
-    briefOutput?.scrollIntoView({
-      behavior: "smooth",
-      block: "nearest"
-    });
+    if (briefEmpty) {
+      briefEmpty.hidden = true;
+    }
+
+    if (briefOutput) {
+      briefOutput.hidden = false;
+
+      briefOutput.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest"
+      });
+    }
+
+    if (copyButton) {
+      copyButton.textContent = "СКОПИРОВАТЬ БРИФ";
+    }
+
+    if (copyStatus) {
+      copyStatus.textContent = "";
+    }
   });
 
+  // COPY BRIEF
   copyButton?.addEventListener("click", async () => {
     if (!generatedBrief) return;
 
+    let copied = false;
+
     try {
       await navigator.clipboard.writeText(generatedBrief);
-
-      if (copyStatus) copyStatus.textContent = "Бриф скопирован.";
-      copyButton.textContent = "СКОПИРОВАНО ✓";
+      copied = true;
     } catch {
       const temporary = document.createElement("textarea");
+
       temporary.value = generatedBrief;
+      temporary.setAttribute("readonly", "");
       temporary.style.position = "fixed";
       temporary.style.opacity = "0";
+
       document.body.appendChild(temporary);
       temporary.select();
 
-      const copied = document.execCommand("copy");
-      temporary.remove();
+      try {
+        copied = document.execCommand("copy");
+      } catch {
+        copied = false;
+      }
 
+      temporary.remove();
+    }
+
+    if (copied) {
       if (copyStatus) {
-        copyStatus.textContent = copied
-          ? "Бриф скопирован."
-          : "Не удалось скопировать. Выделите текст вручную.";
+        copyStatus.textContent = "Бриф успешно скопирован.";
+      }
+
+      copyButton.textContent = "СКОПИРОВАНО ✓";
+    } else {
+      if (copyStatus) {
+        copyStatus.textContent =
+          "Не удалось скопировать. Выделите текст вручную.";
       }
     }
   });
 
-  // FAQ DETAILS
+  // FAQ
   $$(".faq-list details").forEach(item => {
     item.addEventListener("toggle", () => {
       const symbol = $("summary span", item);
-      if (symbol) symbol.textContent = item.open ? "−" : "+";
+
+      if (symbol) {
+        symbol.textContent = item.open ? "−" : "+";
+      }
     });
   });
 
@@ -320,10 +499,10 @@ background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
       });
     }, {
       threshold: 0.08,
@@ -335,7 +514,8 @@ background:${accent};opacity:.18;right:-50px;top:30%;filter:blur(2px)}
       observer.observe(element);
     });
   } else {
-    revealElements.forEach(element => element.classList.add("is-visible"));
+    revealElements.forEach(element => {
+      element.classList.add("is-visible");
+    });
   }
 });
-
