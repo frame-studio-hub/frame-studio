@@ -1,7 +1,6 @@
 (() => {
   'use strict';
-  const SUPABASE_URL='https://mqpeealcueqjzakrcutq.supabase.co';
-  const SUPABASE_KEY='sb_publishable_FkRZkn5CqQwaN9GbhxBpgg_fMSvotuF';
+  const TRACK_URL='https://frame-lab-3wx.pages.dev/analytics/track';
   const consentKey='frame_lab_analytics_consent_v2', visitorKey='frame_lab_visitor';
   const uuid=()=>{
     if(window.crypto&&typeof crypto.randomUUID==='function')return crypto.randomUUID();
@@ -32,10 +31,11 @@
     lastSent=Date.now();
     const d=agent(),id=getVisitor();
     try{
-      const res=await fetch(SUPABASE_URL+'/rest/v1/rpc/track_site_visit',{
+      const res=await fetch(TRACK_URL,{
         method:'POST',
-        headers:{'Content-Type':'application/json','apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Prefer':'return=minimal'},
-        body:JSON.stringify({p_visitor_id:id,p_page_path:location.pathname+location.search,p_referrer:document.referrer,p_ip_address:'',p_user_agent:navigator.userAgent||'',p_browser:d.browser,p_operating_system:d.os,p_device_type:d.device}),
+        mode:'cors',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({visitor_id:id,path:location.pathname+location.search,referrer:document.referrer}),
         keepalive:true
       });
       if(!res.ok){const msg=await res.text().catch(()=> '');console.error('[FRAME LAB analytics] HTTP '+res.status,msg);lastSent=0;}
