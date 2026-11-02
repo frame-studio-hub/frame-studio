@@ -46,8 +46,8 @@
   const showBanner=()=>{
     if(!document.body||document.querySelector('.analytics-consent'))return;
     const el=document.createElement('aside');
-    el.className='analytics-consent';el.setAttribute('role','dialog');el.setAttribute('aria-label','Настройки аналитики');
-    el.innerHTML='<div><b>НАСТРОЙКИ КОНФИДЕНЦИАЛЬНОСТИ</b><p>Разрешить техническую аналитику FRAME LAB? Она помогает понять, какие страницы посещают и какие устройства используют. Без вашего согласия аналитика не запускается. Выбор можно изменить в любой момент.</p></div><div class="analytics-consent-actions"><button type="button" data-consent="no">НЕТ, НЕ РАЗРЕШАЮ</button><button type="button" data-consent="yes">ДА, РАЗРЕШАЮ</button></div>';
+    el.className='analytics-consent';el.setAttribute('role','dialog');el.setAttribute('aria-label','Согласие на использование аналитики');
+    el.innerHTML='<div><b>АНАЛИТИКА FRAME LAB</b><p>Мы используем техническую аналитику, чтобы понимать, как посетители взаимодействуют с сайтом: какие страницы смотрят и какие устройства используют. Данные помогают нам улучшать FRAME LAB. Вы можете разрешить или отклонить сбор аналитики. При отказе аналитические данные о вашем посещении отправляться не будут.</p></div><div class="analytics-consent-actions"><button type="button" data-consent="no">НЕ РАЗРЕШАЮ</button><button type="button" data-consent="yes">РАЗРЕШАЮ</button></div>'
     document.body.append(el);
     el.querySelectorAll('[data-consent]').forEach(button=>button.addEventListener('click',()=>{
       consent=button.dataset.consent;
