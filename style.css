@@ -136,5 +136,3 @@
 }
 
 
-/* Brand identity choice: preserve the asterisk mark as a neutral vector, not emoji. */
-.choice-card .choice-icon{color:var(--lime)}.choice-icon .choice-symbol{display:block;width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;opacity:1}.choice-card input[value="Фирменный стиль"] + .choice-icon{display:flex;align-items:center;justify-content:center}.choice-card input[value="Фирменный стиль"]:checked + .choice-icon{color:var(--lime)}
