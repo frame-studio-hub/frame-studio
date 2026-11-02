@@ -237,6 +237,8 @@
   <div class="project-modal" id="project-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal-backdrop" data-close-modal></div><div class="modal-panel"><button class="modal-close" aria-label="Закрыть описание проекта" data-close-modal>×</button><span class="mono modal-kicker" id="modal-kicker">КОНЦЕПТ / 01</span><h2 id="modal-title">AETHER®</h2><p id="modal-description">Исследование фирменной идентичности.</p><div class="modal-meta mono"><span id="modal-category">АЙДЕНТИКА</span><span>АВТОРСКИЙ КОНЦЕПТ</span></div><p class="modal-disclaimer">Это авторское концептуальное исследование для портфолио FRAME LAB. Проект не является заказной клиентской работой.</p><a class="text-link" id="modal-project-link" href="https://www.instagram.com/frame.lab.co/" target="_blank" rel="noopener noreferrer">ОБСУДИТЬ ПРОЕКТ <span><svg class="ui-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M8 6h10v10"/></svg></span></a></div>
   </div>
+  <button id="analytics-settings-fixed" type="button" style="position:fixed;z-index:2147483000;left:12px;bottom:12px;padding:10px 12px;background:#090a09;color:#c7ff42;border:1px solid #c7ff42;font:10px monospace;letter-spacing:.08em;cursor:pointer">НАСТРОЙКИ АНАЛИТИКИ</button>
+  <script>document.getElementById('analytics-settings-fixed').addEventListener('click',function(){window.dispatchEvent(new Event('frame-lab-open-analytics'))})</script>
   <script src="script.js" defer></script>
   <script src="analytics.js?v=20261103-settings-fix1" defer></script>
   <script src="site-backend.js" defer></script>
