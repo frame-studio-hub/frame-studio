@@ -19,7 +19,7 @@
   };
   const agent=()=>{
     const ua=navigator.userAgent||'';
-    const browser=/Edg\\//.test(ua)?'Edge':/Firefox\\//.test(ua)?'Firefox':/Chrome\\//.test(ua)?'Chrome':/Safari\\//.test(ua)?'Safari':'Other';
+    const browser=ua.includes('Edg/')?'Edge':ua.includes('Firefox/')?'Firefox':ua.includes('Chrome/')?'Chrome':ua.includes('Safari/')?'Safari':'Other';
     const os=/Windows/.test(ua)?'Windows':/Mac OS X/.test(ua)?'macOS':/Android/.test(ua)?'Android':/(iPhone|iPad|iPod)/.test(ua)?'iOS':/Linux/.test(ua)?'Linux':'Other';
     const device=/(iPhone|Android.*Mobile|Mobile)/.test(ua)?'Mobile':/(iPad|Tablet)/.test(ua)?'Tablet':'Desktop';
     return {browser,os,device};
