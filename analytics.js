@@ -10,7 +10,7 @@
     try{
       const response=await fetch(TRACK_URL,{
         method:'POST',mode:'cors',keepalive:true,
-        headers:{'Content-Type':'application/json'},
+        headers:{'Content-Type':'text/plain;charset=UTF-8'},
         body:JSON.stringify({visitor_id:visitorId,path:location.pathname+location.search,referrer:document.referrer})
       });
       if(!response.ok){sent=false;console.error('[FRAME LAB analytics] HTTP '+response.status);}
