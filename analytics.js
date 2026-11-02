@@ -57,6 +57,7 @@
       else if(timer){clearInterval(timer);timer=null;}
     }));
   };
+  window.addEventListener('frame-lab-open-analytics',showBanner);
   const settings=document.createElement('button');
   settings.type='button';settings.textContent='НАСТРОЙКИ АНАЛИТИКИ';
   settings.setAttribute('aria-label','Открыть настройки аналитики');
