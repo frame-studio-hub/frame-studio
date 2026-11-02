@@ -44,7 +44,7 @@
   };
   const start=()=>{send();if(!timer)timer=setInterval(send,60000);};
   const showBanner=()=>{
-    if(consent||!document.body)return;
+    if(!document.body||document.querySelector('.analytics-consent'))return;
     const el=document.createElement('aside');
     el.className='analytics-consent';el.setAttribute('role','dialog');el.setAttribute('aria-label','Настройки аналитики');
     el.innerHTML='<div><b>ТЕХНИЧЕСКАЯ АНАЛИТИКА</b><p>Мы собираем статистику посещений, страницы, браузера и типа устройства. Можно отказаться — сайт продолжит работать.</p></div><div class="analytics-consent-actions"><button type="button" data-consent="no">ОТКЛОНИТЬ</button><button type="button" data-consent="yes">РАЗРЕШИТЬ</button></div>';
@@ -54,9 +54,16 @@
       try{localStorage.setItem(consentKey,consent);}catch(e){}
       el.remove();
       if(consent==='yes')start();
+      else if(timer){clearInterval(timer);timer=null;}
     }));
   };
+  const settings=document.createElement('button');
+  settings.type='button';settings.textContent='НАСТРОЙКИ АНАЛИТИКИ';
+  settings.setAttribute('aria-label','Открыть настройки аналитики');
+  settings.style.cssText='position:fixed;z-index:999;left:12px;bottom:12px;padding:9px 11px;border:1px solid #62695a;background:#090a09;color:#c7ff42;font:9px monospace;letter-spacing:.08em;border-radius:2px;cursor:pointer;opacity:.88';
+  settings.addEventListener('click',showBanner);
+  const init=()=>{document.body.append(settings);if(!consent)showBanner();};
   if(consent==='yes')start();
-  else if(!consent){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',showBanner,{once:true});else showBanner();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)send();});
 })();
