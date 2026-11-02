@@ -47,7 +47,7 @@
     if(!document.body||document.querySelector('.analytics-consent'))return;
     const el=document.createElement('aside');
     el.className='analytics-consent';el.setAttribute('role','dialog');el.setAttribute('aria-label','Настройки аналитики');
-    el.innerHTML='<div><b>ТЕХНИЧЕСКАЯ АНАЛИТИКА</b><p>Мы собираем статистику посещений, страницы, браузера и типа устройства. Можно отказаться — сайт продолжит работать.</p></div><div class="analytics-consent-actions"><button type="button" data-consent="no">ОТКЛОНИТЬ</button><button type="button" data-consent="yes">РАЗРЕШИТЬ</button></div>';
+    el.innerHTML='<div><b>НАСТРОЙКИ КОНФИДЕНЦИАЛЬНОСТИ</b><p>Разрешить техническую аналитику FRAME LAB? Она помогает понять, какие страницы посещают и какие устройства используют. Без вашего согласия аналитика не запускается. Выбор можно изменить в любой момент.</p></div><div class="analytics-consent-actions"><button type="button" data-consent="no">НЕТ, НЕ РАЗРЕШАЮ</button><button type="button" data-consent="yes">ДА, РАЗРЕШАЮ</button></div>';
     document.body.append(el);
     el.querySelectorAll('[data-consent]').forEach(button=>button.addEventListener('click',()=>{
       consent=button.dataset.consent;
@@ -58,12 +58,7 @@
     }));
   };
   window.addEventListener('frame-lab-open-analytics',showBanner);
-  const settings=document.createElement('button');
-  settings.type='button';settings.textContent='НАСТРОЙКИ АНАЛИТИКИ';
-  settings.setAttribute('aria-label','Открыть настройки аналитики');
-  settings.style.cssText='position:fixed;z-index:999;left:12px;bottom:12px;padding:9px 11px;border:1px solid #62695a;background:#090a09;color:#c7ff42;font:9px monospace;letter-spacing:.08em;border-radius:2px;cursor:pointer;opacity:.88';
-  settings.addEventListener('click',showBanner);
-  const init=()=>{document.body.append(settings);if(!consent)showBanner();};
+  const init=()=>{if(!consent)showBanner();};
   if(consent==='yes')start();
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)send();});
