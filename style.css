@@ -46,19 +46,10 @@
   *, *::before, *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
 
-/* Mobile stability: never let decorative effects or reveal states block content. */
-@media (max-width: 700px) {
-  .js .reveal, .js .reveal.in-view { opacity: 1 !important; transform: none !important; }
-  .hero-sculpture { display: none !important; }
-  .sculpture-loop, .sculpture-glass, .sculpture-core, .sculpture-beam,
-  .hero-object, .ticker-track, .direction-cross, .interactive-cube {
-    animation: none !important;
-  }
-  .sculpture-glass { backdrop-filter: none !important; }
-  .noise { display: none !important; }
-  .cursor-glow { display: none !important; }
-  .analytics-consent { backdrop-filter: none !important; }
-  html { scroll-behavior: auto; }
+/* Mobile stability: retain lightweight CSS motion; avoid only expensive blur layers. */
+@media (max-width:700px) {
+  .sculpture-glass, .analytics-consent { backdrop-filter:none !important; }
+  .noise, .cursor-glow { display:none !important; }
 }
 
 /* Mobile motion: lightweight visual feedback without full-screen render loops. */
@@ -107,3 +98,39 @@
 .choice-icon .ui-arrow{width:23px;height:23px}
 .process-step .ui-arrow{width:15px;height:15px}
 .nord-art .ui-arrow{width:20px;height:20px}
+
+
+/* Mobile final motion pass: visible orbit, moving ticker and reliable reveal. */
+@media (max-width:700px) and (prefers-reduced-motion:no-preference) {
+  .hero-sculpture {
+    display:block !important;
+    width:92vw !important; height:92vw !important;
+    right:-34% !important; top:4% !important;
+    opacity:.48 !important;
+    animation:mobile-sphere-float 12s ease-in-out infinite alternate !important;
+  }
+  .sculpture-loop {
+    animation:mobile-sphere-spin 24s linear infinite !important;
+    transform-origin:50% 50%;
+  }
+  .sculpture-loop.loop-b { animation-duration:31s !important; animation-direction:reverse !important; }
+  .sculpture-loop.loop-c { animation-duration:38s !important; }
+  .sculpture-glass { animation:mobile-glass 9s ease-in-out infinite !important; }
+  .sculpture-core { animation:mobile-sphere-spin 28s linear infinite !important; }
+  .sculpture-beam { animation:beam-pulse 7s ease-in-out infinite !important; }
+  .hero-object { animation:mobile-object 6s ease-in-out infinite alternate !important; }
+  .ticker-track { animation:ticker 24s linear infinite !important; will-change:transform; }
+  .js .reveal { opacity:0 !important; transform:translate3d(0,22px,0) !important; transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1) !important; }
+  .js .reveal.in-view { opacity:1 !important; transform:translate3d(0,0,0) !important; }
+}
+@keyframes mobile-sphere-spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+@keyframes mobile-sphere-float { from { transform:translate3d(0,0,0) rotate(-7deg); } to { transform:translate3d(-2.5vw,2vw,0) rotate(7deg); } }
+
+@media (max-width:700px) {
+  .project-arrow .ui-arrow, .service-plus .ui-arrow, .choice-icon .ui-arrow,
+  .process-step .ui-arrow, .header-contact .ui-arrow, .text-link .ui-arrow {
+    width:18px !important; height:18px !important;
+    color:var(--lime); vertical-align:middle;
+  }
+  .project-arrow, .service-plus { display:flex; align-items:center; justify-content:center; }
+}
