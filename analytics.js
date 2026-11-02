@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const TRACK_URL='https://frame-lab-3wx.pages.dev/analytics/track';
-  const consentKey='frame_lab_analytics_consent_v2', visitorKey='frame_lab_visitor';
+  const consentKey='frame_lab_analytics_consent_v3', visitorKey='frame_lab_visitor';
   const uuid=()=>{
     if(window.crypto&&typeof crypto.randomUUID==='function')return crypto.randomUUID();
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
