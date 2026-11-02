@@ -24,6 +24,16 @@
     }
   </style>
   <script>document.documentElement.classList.add('js');</script>
+  <style id="analytics-ui-fix">
+  #analytics-settings-fixed{position:fixed!important;z-index:2147483000!important;left:14px!important;bottom:14px!important;min-height:48px!important;padding:14px 18px!important;background:#090a09!important;color:#c7ff42!important;border:1px solid #c7ff42!important;font:600 12px/1.2 monospace!important;letter-spacing:.06em!important;box-shadow:0 4px 24px #0009!important;border-radius:3px!important;cursor:pointer!important}
+  .analytics-consent{position:fixed!important;z-index:2147483001!important;left:50%!important;right:auto!important;top:50%!important;bottom:auto!important;transform:translate(-50%,-50%)!important;width:min(620px,calc(100vw - 32px))!important;display:block!important;padding:24px!important;background:#0c0e0b!important;border:1px solid rgba(199,255,66,.5)!important;box-shadow:0 24px 90px #000e!important;color:#f0f0e9!important}
+  .analytics-consent b{display:block!important;font:600 12px monospace!important;color:#c7ff42!important;letter-spacing:.1em!important}
+  .analytics-consent p{font:13px/1.65 sans-serif!important;color:#d0d2c9!important;margin:12px 0 18px!important;max-width:none!important}
+  .analytics-consent-actions{display:flex!important;gap:10px!important;flex-wrap:wrap!important}
+  .analytics-consent-actions button{flex:1!important;min-height:48px!important;padding:14px 16px!important;font:600 11px monospace!important;border:1px solid #777!important;background:#151713!important;color:#fff!important}
+  .analytics-consent-actions button[data-consent=yes]{background:#c7ff42!important;color:#090a09!important;border-color:#c7ff42!important}
+  @media(max-width:650px){#analytics-settings-fixed{left:12px!important;bottom:12px!important;min-height:50px!important;padding:15px 18px!important;font-size:12px!important}.analytics-consent{width:calc(100vw - 24px)!important;padding:20px!important}.analytics-consent-actions{display:grid!important;grid-template-columns:1fr!important}.analytics-consent-actions button{width:100%!important;min-height:54px!important;font-size:12px!important}}
+  </style>
 </head>
 <body>
   <div class="noise" aria-hidden="true"></div>
@@ -240,7 +250,7 @@
   <button id="analytics-settings-fixed" type="button" style="position:fixed;z-index:2147483000;left:12px;bottom:12px;padding:10px 12px;background:#090a09;color:#c7ff42;border:1px solid #c7ff42;font:10px monospace;letter-spacing:.08em;cursor:pointer">НАСТРОЙКИ АНАЛИТИКИ</button>
   <script>document.getElementById('analytics-settings-fixed').addEventListener('click',function(){window.dispatchEvent(new Event('frame-lab-open-analytics'))})</script>
   <script src="script.js" defer></script>
-  <script src="analytics.js?v=20261103-settings-fix1" defer></script>
+  <script src="analytics.js?v=20261103-mobile-consent-fix2" defer></script>
   <script src="site-backend.js" defer></script>
   <script type="module" src="three-scene.js"></script>
 </body>
