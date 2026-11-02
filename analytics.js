@@ -2,7 +2,7 @@
   'use strict';
   const SUPABASE_URL='https://mqpeealcueqjzakrcutq.supabase.co';
   const SUPABASE_KEY='sb_publishable_FkRZkn5CqQwaN9GbhxBpgg_fMSvotuF';
-  const consentKey='frame_lab_analytics_consent', visitorKey='frame_lab_visitor';
+  const consentKey='frame_lab_analytics_consent_v2', visitorKey='frame_lab_visitor';
   const uuid=()=>{
     if(window.crypto&&typeof crypto.randomUUID==='function')return crypto.randomUUID();
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
