@@ -137,4 +137,4 @@
 
 
 /* Brand identity choice: preserve the asterisk mark as a neutral vector, not emoji. */
-.choice-icon .choice-symbol{display:block;width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;color:#a7aaa0}
+.choice-card input[value="Фирменный стиль"] + .choice-icon{color:#85877e;display:flex;align-items:center;justify-content:center}.choice-icon .choice-symbol{display:block;width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round;opacity:.9}.choice-card input[value="Фирменный стиль"]:checked + .choice-icon{color:var(--lime)}
