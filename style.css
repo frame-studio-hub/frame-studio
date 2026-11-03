@@ -1194,3 +1194,61 @@ button.filter-btn.active,button.material-btn.active{
 @media(prefers-reduced-motion:reduce){
   .start-button:after{animation:none!important;display:none!important}
 }
+
+
+/* FRAME LAB // CTA VISIBILITY OVERRIDE — HARD CONTRAST */
+section.contact .contact-bottom > a.start-button,
+section.contact .contact-bottom > a.start-button:link,
+section.contact .contact-bottom > a.start-button:visited{
+  display:flex!important;
+  position:relative!important;
+  z-index:8!important;
+  isolation:isolate!important;
+  opacity:1!important;
+  visibility:visible!important;
+  color:#071006!important;
+  -webkit-text-fill-color:#071006!important;
+  background-color:#c7ff42!important;
+  background-image:linear-gradient(112deg,#efffb2 0%,#c7ff42 46%,#a9e82d 100%)!important;
+  border:2px solid #efffb2!important;
+  box-shadow:0 0 0 1px rgba(199,255,66,.42),0 12px 38px rgba(199,255,66,.25),0 0 70px rgba(199,255,66,.12),inset 0 2px 0 rgba(255,255,255,.6)!important;
+  text-shadow:none!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+}
+section.contact .contact-bottom > a.start-button span,
+section.contact .contact-bottom > a.start-button b,
+section.contact .contact-bottom > a.start-button .ui-arrow{
+  color:#071006!important;
+  -webkit-text-fill-color:#071006!important;
+  opacity:1!important;
+  stroke:#071006!important;
+}
+section.contact .contact-bottom > a.start-button b{
+  border:1px solid rgba(7,16,6,.45)!important;
+  background:rgba(7,16,6,.07)!important;
+}
+section.contact .contact-bottom > a.start-button:before{
+  border:1px solid rgba(7,16,6,.16)!important;
+}
+section.contact .contact-bottom > a.start-button:after{
+  z-index:3!important;
+  pointer-events:none!important;
+}
+@media(hover:hover){
+  section.contact .contact-bottom > a.start-button:hover{
+    transform:translateY(-4px)!important;
+    background-image:linear-gradient(112deg,#f5ffd0 0%,#d8ff70 46%,#b9f044 100%)!important;
+    box-shadow:0 0 0 1px rgba(199,255,66,.65),0 16px 46px rgba(199,255,66,.34),0 0 90px rgba(199,255,66,.2)!important;
+  }
+}
+@media(max-width:700px){
+  section.contact .contact-bottom > a.start-button{
+    width:100%!important;
+    min-height:58px!important;
+    justify-self:stretch!important;
+    padding:0 20px!important;
+    font-size:11px!important;
+    letter-spacing:.13em!important;
+  }
+}
