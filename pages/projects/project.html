@@ -7,6 +7,11 @@
   <meta name="robots" content="index,follow">
   <title>Проект FRAME LAB®</title>
   <meta name="description" content="Концептуальные исследования FRAME LAB — стратегия, визуальная система и цифровой опыт.">
+  <link rel="canonical" href="https://frame-studio-hub.github.io/frame-studio/pages/projects/project.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="FRAME LAB®">
+  <meta property="og:title" content="Проект FRAME LAB®">
+  <meta property="og:description" content="Концептуальные исследования: стратегия, визуальная система и цифровой опыт.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -46,6 +51,9 @@
     const id=new URLSearchParams(location.search).get("id")||"01";
     const p=projects[id]||projects["01"];
     document.title=p.title+" — FRAME LAB®";
+    document.querySelector('link[rel="canonical"]').href=location.origin+location.pathname+"?id="+encodeURIComponent(id);
+    document.querySelector('meta[property="og:title"]').content=p.title+" — FRAME LAB®";
+    document.querySelector('meta[property="og:description"]').content=p.lede;
     document.querySelector('meta[name="description"]').content=p.lede;
     document.getElementById("kicker").textContent="CONCEPT STUDY / "+id;
     document.getElementById("title").textContent=p.title;
