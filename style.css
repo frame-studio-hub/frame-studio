@@ -222,3 +222,15 @@ body {
   .hero-object,.ticker-track { animation:none!important; }
 }
 
+
+
+/* iOS / Telegram in-app browser: never hide reveal content on small screens. */
+@media (max-width: 700px) {
+  .js .reveal,
+  .js .reveal.in-view {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
