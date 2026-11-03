@@ -70,7 +70,7 @@
     lastFocused = document.activeElement;
     $('#modal-title').textContent = item.title; $('#modal-kicker').textContent = `CONCEPT PROJECT / ${id}`;
     $('#modal-category').textContent = item.category; $('#modal-description').textContent = item.description;
-    const detailLink = $('#modal-project-link'); if (detailLink) { detailLink.href = `pages/projects/project.html?id=${encodeURIComponent(id)}`; detailLink.removeAttribute('target'); detailLink.removeAttribute('rel'); detailLink.textContent = 'OPEN PROJECT PAGE ↗'; }
+    const detailLink = $('#modal-project-link'); if (detailLink) { detailLink.href = `pages/projects/project.html?id=${encodeURIComponent(id)}`; detailLink.removeAttribute('target'); detailLink.removeAttribute('rel'); detailLink.textContent = 'СМОТРЕТЬ ПРОЕКТ ↗'; }
     modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; $('.modal-close').focus();
   }
   function closeProjectModal() {
