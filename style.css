@@ -221,3 +221,6 @@ body {
 @media (prefers-reduced-motion:reduce) {
   .hero-object,.ticker-track { animation:none!important; }
 }
+
+/* iOS Safari fail-safe: keep mobile content visible even if reveal observers stall. */
+@media (max-width: 650px) { .js .reveal, .js .reveal.in-view { opacity: 1 !important; visibility: visible !important; transform: none !important; } }
