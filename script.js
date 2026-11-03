@@ -47,13 +47,29 @@
   $$('.mobile-menu a').forEach(a => a.addEventListener('click', closeMenu));
   window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMenu(); closeProjectModal(); } });
 
-  // Project category filters.
-  const filterButtons = $$('.filter-btn'), projectCards = $$('.project-card');
+  // Project filters and live search work together.
+  const filterButtons = $('.filter-btn'), projectCards = $('.project-card');
+  const projectSearch = $('#project-search'), projectSearchEmpty = $('#project-search-empty');
+  let activeProjectFilter = 'all';
+  const updateProjectResults = () => {
+    const query = (projectSearch?.value || '').trim().toLocaleLowerCase('ru');
+    let visible = 0;
+    projectCards.forEach(card => {
+      const matchesCategory = activeProjectFilter === 'all' || card.dataset.category === activeProjectFilter;
+      const matchesText = !query || card.textContent.toLocaleLowerCase('ru').includes(query);
+      const show = matchesCategory && matchesText;
+      card.classList.toggle('hidden', !show);
+      card.classList.toggle('search-hidden', !show);
+      if (show) visible++;
+    });
+    if (projectSearchEmpty) projectSearchEmpty.hidden = visible !== 0;
+  };
   filterButtons.forEach(button => button.addEventListener('click', () => {
-    const filter = button.dataset.filter;
+    activeProjectFilter = button.dataset.filter;
     filterButtons.forEach(b => { const active = b === button; b.classList.toggle('active', active); b.setAttribute('aria-pressed', String(active)); });
-    projectCards.forEach(card => card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter));
+    updateProjectResults();
   }));
+  projectSearch?.addEventListener('input', updateProjectResults);
 
   // Project detail modal.
   const projectData = {
