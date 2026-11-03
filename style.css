@@ -595,3 +595,38 @@ body {
   .hero-intro p { font-size:12px!important; }
   .hero-foot { margin-top:43px!important; }
 }
+
+
+/* Mobile ticker correction: keep the duplicated marquee copy on one continuous line. */
+@media (max-width:700px) {
+  .ticker {
+    display:block!important;
+    overflow:hidden!important;
+    padding:16px 0!important;
+    white-space:nowrap!important;
+  }
+  .ticker-track {
+    display:block!important;
+    width:max-content!important;
+    max-width:none!important;
+    white-space:nowrap!important;
+    animation:ticker 30s linear infinite!important;
+    will-change:transform;
+  }
+  .ticker-track span {
+    display:inline-block!important;
+    width:auto!important;
+    padding:0 0 0 24px!important;
+    white-space:nowrap!important;
+    text-align:left!important;
+    font-size:8px!important;
+    line-height:1!important;
+  }
+  .ticker-track b {
+    display:inline!important;
+    padding:0 12px!important;
+  }
+}
+@media (prefers-reduced-motion:reduce) {
+  .ticker-track { animation:none!important; }
+}
