@@ -630,3 +630,77 @@ body {
 @media (prefers-reduced-motion:reduce) {
   .ticker-track { animation:none!important; }
 }
+
+
+/* FRAME LAB — Android motion system: rich but battery-conscious */
+@media (max-width:700px) and (prefers-reduced-motion:no-preference) {
+  .hero:before {
+    animation: mobile-atmosphere 13s ease-in-out infinite alternate;
+    transform-origin:70% 40%;
+  }
+  @keyframes mobile-atmosphere {
+    0% { opacity:.55; transform:scale(1) translate3d(0,0,0); }
+    100% { opacity:1; transform:scale(1.08) translate3d(-1.5%,1%,0); }
+  }
+  .status-dot { animation: mobile-status 2.8s ease-in-out infinite; }
+  @keyframes mobile-status {
+    0%,100% { box-shadow:0 0 5px rgba(199,255,66,.3); opacity:.7; }
+    50% { box-shadow:0 0 16px rgba(199,255,66,.95); opacity:1; }
+  }
+  .hero-title .title-line { animation: mobile-title-in .85s cubic-bezier(.2,.75,.25,1) both; }
+  .hero-title .title-line:nth-child(2) { animation-delay:.12s; }
+  .hero-title .title-line:nth-child(3) { animation-delay:.24s; }
+  @keyframes mobile-title-in {
+    from { opacity:0; transform:translate3d(0,16px,0); filter:blur(5px); }
+    to { opacity:1; transform:translate3d(0,0,0); filter:blur(0); }
+  }
+  .hero-cta { position:relative; overflow:hidden; transition:background .3s ease,border-color .3s ease,transform .3s ease; }
+  .hero-cta:after {
+    content:""; position:absolute; top:-80%; bottom:-80%; left:-55%; width:28%;
+    transform:rotate(22deg); background:linear-gradient(90deg,transparent,rgba(199,255,66,.18),transparent);
+    animation: mobile-button-sheen 6s ease-in-out infinite;
+  }
+  @keyframes mobile-button-sheen {
+    0%,65%,100% { left:-55%; }
+    82% { left:130%; }
+  }
+  .round-link { animation: mobile-ring 4.5s ease-in-out infinite; }
+  @keyframes mobile-ring {
+    0%,100% { box-shadow:0 0 0 0 rgba(199,255,66,0); }
+    50% { box-shadow:0 0 0 7px rgba(199,255,66,.045); border-color:rgba(199,255,66,.55); }
+  }
+  .ticker-track { will-change:transform; }
+  .business-value-card,.project-card,.service-item,.process-step,.faq-list details {
+    transform:translateZ(0);
+  }
+  .business-value-card { transition:background .35s ease,padding .35s ease; }
+  .business-value-card:active { background:rgba(199,255,66,.035); }
+  .project-card .project-art { transition:transform .7s cubic-bezier(.2,.75,.25,1),filter .7s ease; }
+  .project-card:active .project-art { transform:scale(.985); filter:brightness(1.08); }
+  .project-arrow { transition:transform .35s ease,background .35s ease,color .35s ease; }
+  .project-card:active .project-arrow { transform:rotate(45deg); background:var(--lime); color:var(--black); }
+  .service-item:active { background:rgba(199,255,66,.035); }
+  .service-plus { transition:transform .35s ease,color .35s ease; }
+  .service-item:active .service-plus { transform:rotate(45deg); color:var(--lime); }
+  .faq-list details[open] summary span { transform:rotate(45deg); color:var(--lime); }
+  .faq-list summary span { display:inline-block; transition:transform .3s ease,color .3s ease; }
+  .contact-art { animation:mobile-contact-float 14s ease-in-out infinite alternate; }
+  @keyframes mobile-contact-float {
+    from { transform:translate3d(-2%,0,0) rotate(-2deg); }
+    to { transform:translate3d(2%,-2%,0) rotate(2deg); }
+  }
+  .js .reveal {
+    opacity:0!important; visibility:visible!important;
+    transform:translate3d(0,22px,0)!important;
+    filter:blur(3px);
+    transition:opacity .75s cubic-bezier(.2,.75,.25,1),transform .75s cubic-bezier(.2,.75,.25,1),filter .75s ease!important;
+  }
+  .js .reveal.in-view {
+    opacity:1!important; transform:none!important; filter:blur(0)!important;
+  }
+}
+@media (max-width:700px) and (prefers-reduced-motion:reduce) {
+  .hero:before,.status-dot,.hero-title .title-line,.hero-cta:after,.round-link,.contact-art { animation:none!important; }
+  .js .reveal,.js .reveal.in-view { opacity:1!important;visibility:visible!important;transform:none!important;filter:none!important;transition:none!important; }
+  .ticker-track { animation:none!important; }
+}
