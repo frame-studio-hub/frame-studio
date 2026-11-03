@@ -43,7 +43,7 @@
     lastUiSound=now;
     const ctx=ensureAudio(); if(!ctx) return;
     // Quiet, short, original synthesized sounds — no downloaded audio or autoplay.
-    if(kind==='open') {
+    if(kind==='hover') { tone(ctx,740,0,.035,.004,'sine',680);\n    } else if(kind==='open') {
       tone(ctx,440,0,.12,.018,'sine',660);
       tone(ctx,880,.045,.11,.012,'sine',1175);
     } else if(kind==='close') {
@@ -75,12 +75,18 @@
     const target=event.target.closest('button,a,.project-card,.choice-card,summary,input,select');
     if(!target) return;
     const kind=target===soundToggle?'soft':
-      target.classList.contains('menu-toggle')?'open':
+      target.classList.contains('menu-toggle')?(target.getAttribute('aria-expanded')==='true'?'close':'open'):
       target.classList.contains('project-card')?'select':
       target.classList.contains('sound-toggle')?'soft':
       target.matches('input,select')?'select':'tap';
     playUiSound(kind);
   }, {capture:true,passive:true});
+  // Desktop-only hover ticks; never fires on touch devices.
+  if (!coarsePointer) document.addEventListener('mouseover', event => {
+    if (!soundEnabled) return;
+    const target=event.target.closest('.desktop-nav a,.header-contact,.hero-cta,.filter-btn,.service-item');
+    if (target && !target.contains(event.relatedTarget)) playUiSound('hover');
+  }, {passive:true});
   document.addEventListener('click', event => {
     const target=event.target.closest('.service-item,summary,.project-card');
     if(!target || !soundEnabled) return;
