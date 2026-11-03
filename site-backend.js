@@ -39,34 +39,6 @@ function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 }
 
-const planner = $('#project-planner');
-if (planner) {
-  let sending = false;
-  planner.addEventListener('submit', async () => {
-    if (sending) return;
-    sending = true;
-    const button = planner.querySelector('button[type="submit"]');
-    if (button) button.disabled = true;
-    const values = Object.fromEntries(new FormData(planner).entries());
-    const brief = $('#brief-output')?.textContent || '';
-    const status = $('#copy-status');
-    try {
-      await api('/public/requests', {method:'POST', body:JSON.stringify({...values, brief})});
-      setStatus(status, 'Заявка сохранена в FRAME LAB. Мы свяжемся с вами по указанному контакту.');
-      const message = $('#planner-result p');
-      if (message) message.textContent = 'Заявка успешно отправлена в FRAME LAB. Сохраните текст брифа для себя — мы свяжемся с вами по указанному контакту.';
-    } catch (error) {
-      setStatus(status, 'Не удалось отправить заявку: ' + error.message + ' Скопируйте бриф и отправьте его вручную.', true);
-      const message = $('#planner-result p');
-      if (message) message.textContent = 'Автоматическая отправка не удалась. Скопируйте бриф и отправьте его нам вручную.';
-      console.error('[FRAME LAB request]', error);
-    } finally {
-      sending = false;
-      if (button) button.disabled = false;
-    }
-  });
-}
-
 loadReviews();
 
 const reviewForm = $('#review-form');
