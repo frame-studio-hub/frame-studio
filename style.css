@@ -728,3 +728,10 @@ body {
  .mobile-menu>a{transition:none!important;opacity:1!important;transform:none!important}
  .hero-object,.hero-sculpture,.hero-orbit{transition:none!important}
 }
+
+
+/* Sound switch states */
+.sound-toggle{white-space:nowrap}
+.sound-toggle[aria-pressed="true"]{color:var(--white);border-color:rgba(199,255,66,.58);box-shadow:inset 0 0 14px rgba(199,255,66,.055)}
+.sound-toggle[aria-pressed="true"] span{color:var(--lime);text-shadow:0 0 10px rgba(199,255,66,.35)}
+.sound-toggle span{min-width:18px;text-align:left}
