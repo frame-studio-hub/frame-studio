@@ -5,6 +5,62 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
+
+  // Optional original micro-sound design. Audio is created only after explicit opt-in.
+  const soundToggle = $('.sound-toggle');
+  let soundEnabled = false, soundContext = null, lastUiSound = 0;
+  const playUiSound = (kind = 'tap') => {
+    if (!soundEnabled || reduceMotion) return;
+    const now = performance.now();
+    if (now - lastUiSound < 85) return;
+    lastUiSound = now;
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      soundContext ||= new AudioCtx();
+      if (soundContext.state === 'suspended') soundContext.resume();
+      const osc = soundContext.createOscillator(), gain = soundContext.createGain();
+      const start = soundContext.currentTime, freq = kind === 'open' ? 620 : kind === 'select' ? 470 : 360;
+      osc.type = 'sine'; osc.frequency.setValueAtTime(freq, start);
+      osc.frequency.exponentialRampToValueAtTime(freq * .72, start + .055);
+      gain.gain.setValueAtTime(.0001, start); gain.gain.exponentialRampToValueAtTime(.025, start + .008);
+      gain.gain.exponentialRampToValueAtTime(.0001, start + .075);
+      osc.connect(gain); gain.connect(soundContext.destination); osc.start(start); osc.stop(start + .08);
+    } catch (_) {}
+  };
+  soundToggle?.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    soundToggle.setAttribute('aria-pressed', String(soundEnabled));
+    soundToggle.setAttribute('aria-label', soundEnabled ? 'Выключить звуковые эффекты' : 'Включить звуковые эффекты');
+    const state = $('span', soundToggle); if (state) state.textContent = soundEnabled ? 'ON' : 'OFF';
+    if (soundEnabled) { playUiSound('open'); }
+  });
+  document.addEventListener('click', event => {
+    const target = event.target.closest('button,a,.project-card,.choice-card,summary');
+    if (!target || target === soundToggle) return;
+    playUiSound(target.classList.contains('menu-toggle') || target.classList.contains('project-card') ? 'open' : 'tap');
+  }, { passive:true });
+
+  // Touch parallax for the hero sculpture: no device-orientation permission or sensor polling.
+  const heroStage = $('.hero-stage');
+  if (heroStage && coarsePointer && !reduceMotion) {
+    let touchFrame = 0;
+    heroStage.addEventListener('pointermove', event => {
+      if (event.pointerType !== 'touch') return;
+      const rect = heroStage.getBoundingClientRect();
+      const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - .5) * 2));
+      const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - .5) * 2));
+      cancelAnimationFrame(touchFrame);
+      touchFrame = requestAnimationFrame(() => {
+        heroStage.style.setProperty('--touch-x', x.toFixed(2));
+        heroStage.style.setProperty('--touch-y', y.toFixed(2));
+      });
+    }, { passive:true });
+    heroStage.addEventListener('pointerleave', () => {
+      heroStage.style.setProperty('--touch-x', '0'); heroStage.style.setProperty('--touch-y', '0');
+    }, { passive:true });
+  }
+
   // Scroll progress and soft cursor light.
   const progress = $('.scroll-progress span');
   const glow = $('.cursor-glow');
