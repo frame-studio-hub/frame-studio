@@ -43,7 +43,8 @@
     lastUiSound=now;
     const ctx=ensureAudio(); if(!ctx) return;
     // Quiet, short, original synthesized sounds — no downloaded audio or autoplay.
-    if(kind==='hover') { tone(ctx,740,0,.035,.004,'sine',680);\n    } else if(kind==='open') {
+    if(kind==='hover') { tone(ctx,740,0,.035,.004,'sine',680);
+    } else if(kind==='open') {
       tone(ctx,440,0,.12,.018,'sine',660);
       tone(ctx,880,.045,.11,.012,'sine',1175);
     } else if(kind==='close') {
