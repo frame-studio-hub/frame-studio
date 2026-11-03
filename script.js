@@ -41,7 +41,7 @@
   };
   menuButton?.addEventListener('click', () => {
     const open = menuButton.getAttribute('aria-expanded') !== 'true';
-    menuButton.setAttribute('aria-expanded', String(open)); menuButton.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    menuButton.setAttribute('aria-expanded', String(open)); menuButton.setAttribute('aria-label', open ? 'Закрыть меню' : 'Открыть меню');
     mobileMenu.classList.toggle('open', open); mobileMenu.setAttribute('aria-hidden', String(!open)); document.body.classList.toggle('menu-open', open);
   });
   $$('.mobile-menu a').forEach(a => a.addEventListener('click', closeMenu));
