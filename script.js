@@ -21,12 +21,16 @@
   window.addEventListener('scroll', updateScroll, { passive: true }); updateScroll();
 
   // Reveal on entry.
-  const revealEls = $$('.reveal');
+  const revealEls = $('.reveal');
   if ('IntersectionObserver' in window && !reduceMotion) {
+    // Enable hidden/reveal styling only after the observer is ready.
+    document.documentElement.classList.add('js');
     const observer = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); }
-    }), { threshold: .12 });
+    }), { threshold: .08, rootMargin: '0px 0px 80px 0px' });
     revealEls.forEach(el => observer.observe(el));
+    // Fail open on mobile browsers where intersection callbacks can stall.
+    window.setTimeout(() => revealEls.forEach(el => el.classList.add('in-view')), 2600);
   } else revealEls.forEach(el => el.classList.add('in-view'));
 
   // Header menu.
