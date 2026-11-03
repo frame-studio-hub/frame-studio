@@ -236,7 +236,7 @@
       if (status) { status.textContent = 'Отправляем заявку в FRAME LAB…'; status.classList.remove('is-error'); }
       try {
         const payload = Object.fromEntries(new FormData(planner).entries());
-        payload.brief = lines.join('\\n');
+        payload.brief = lines.join('\n');
         const response = await fetch('https://frame-lab-3wx.pages.dev/public/requests', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
