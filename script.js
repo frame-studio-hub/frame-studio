@@ -21,7 +21,7 @@
   window.addEventListener('scroll', updateScroll, { passive: true }); updateScroll();
 
   // Reveal on entry.
-  const revealEls = $('.reveal');
+  const revealEls = $$('.reveal');
   if ('IntersectionObserver' in window && !reduceMotion) {
     // Enable hidden/reveal styling only after the observer is ready.
     document.documentElement.classList.add('js');
