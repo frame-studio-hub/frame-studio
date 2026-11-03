@@ -21,9 +21,7 @@
     };
     try {
       const response = await fetch(TRACK_URL, {
-        method: 'POST',
-        mode: 'cors',
-        keepalive: true,
+        method: 'POST', mode: 'cors', keepalive: true,
         headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
         body: JSON.stringify(payload)
       });
@@ -32,9 +30,6 @@
       console.error('[FRAME LAB analytics]', error);
     }
   };
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', send, { once: true });
-  } else {
-    send();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', send, { once: true });
+  else send();
 })();
