@@ -24,10 +24,10 @@ async function loadReviews() {
     const data = await api('/public/reviews');
     const reviews = data.reviews || [];
     host.innerHTML = reviews.length ? reviews.map(review => `
-      <article class="public-review">
-        <div class="stars">${'★'.repeat(Number(review.rating)||0)}${'☆'.repeat(5-(Number(review.rating)||0))}</div>
+      <article class="review-card">
+        <div class="review-stars">${'★'.repeat(Number(review.rating)||0)}${'☆'.repeat(5-(Number(review.rating)||0))}</div>
         <h3>${escapeHtml(review.author)}</h3>
-        <small>${escapeHtml(review.project || 'Клиент FRAME LAB')}</small>
+        <small class="review-meta">${escapeHtml(review.project || 'Клиент FRAME LAB')}</small>
         <p>${escapeHtml(review.body)}</p>
       </article>`).join('') : '<p class="reviews-empty">Пока нет опубликованных отзывов. Будьте первым.</p>';
   } catch (error) {
