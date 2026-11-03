@@ -6,40 +6,91 @@
   const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
 
-  // Optional original micro-sound design. Audio is created only after explicit opt-in.
+
+  // FRAME LAB sound design. Enabled by default; browser audio unlocks on first user gesture.
   const soundToggle = $('.sound-toggle');
-  let soundEnabled = false, soundContext = null, lastUiSound = 0;
-  const playUiSound = (kind = 'tap') => {
-    if (!soundEnabled || reduceMotion) return;
-    const now = performance.now();
-    if (now - lastUiSound < 85) return;
-    lastUiSound = now;
+  let soundEnabled = true, soundContext = null, lastUiSound = 0;
+  if (soundToggle) {
+    soundToggle.setAttribute('aria-pressed', 'true');
+    soundToggle.setAttribute('aria-label', 'Выключить звуковые эффекты');
+    const state = $('span', soundToggle); if (state) state.textContent = 'ON';
+  }
+  const ensureAudio = () => {
     try {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
+      if (!AudioCtx) return null;
       soundContext ||= new AudioCtx();
       if (soundContext.state === 'suspended') soundContext.resume();
-      const osc = soundContext.createOscillator(), gain = soundContext.createGain();
-      const start = soundContext.currentTime, freq = kind === 'open' ? 620 : kind === 'select' ? 470 : 360;
-      osc.type = 'sine'; osc.frequency.setValueAtTime(freq, start);
-      osc.frequency.exponentialRampToValueAtTime(freq * .72, start + .055);
-      gain.gain.setValueAtTime(.0001, start); gain.gain.exponentialRampToValueAtTime(.025, start + .008);
-      gain.gain.exponentialRampToValueAtTime(.0001, start + .075);
-      osc.connect(gain); gain.connect(soundContext.destination); osc.start(start); osc.stop(start + .08);
-    } catch (_) {}
+      return soundContext;
+    } catch (_) { return null; }
+  };
+  const tone = (ctx, frequency, delay, duration, volume, type='sine', endFrequency=null) => {
+    const osc=ctx.createOscillator(), gain=ctx.createGain();
+    const t=ctx.currentTime+delay;
+    osc.type=type;
+    osc.frequency.setValueAtTime(frequency,t);
+    if(endFrequency) osc.frequency.exponentialRampToValueAtTime(Math.max(1,endFrequency),t+duration);
+    gain.gain.setValueAtTime(.0001,t);
+    gain.gain.exponentialRampToValueAtTime(Math.max(.0002,volume),t+.009);
+    gain.gain.exponentialRampToValueAtTime(.0001,t+duration);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(t); osc.stop(t+duration+.015);
+  };
+  const playUiSound = (kind='tap') => {
+    if (!soundEnabled) return;
+    const now=performance.now();
+    if(now-lastUiSound<65) return;
+    lastUiSound=now;
+    const ctx=ensureAudio(); if(!ctx) return;
+    // Quiet, short, original synthesized sounds — no downloaded audio or autoplay.
+    if(kind==='open') {
+      tone(ctx,440,0,.12,.018,'sine',660);
+      tone(ctx,880,.045,.11,.012,'sine',1175);
+    } else if(kind==='close') {
+      tone(ctx,660,0,.11,.014,'sine',440);
+      tone(ctx,520,.035,.09,.009,'sine',350);
+    } else if(kind==='select') {
+      tone(ctx,520,0,.075,.014,'triangle',740);
+    } else if(kind==='success') {
+      tone(ctx,523,0,.13,.018,'sine',659);
+      tone(ctx,659,.10,.14,.018,'sine',784);
+      tone(ctx,784,.20,.19,.016,'sine',1046);
+    } else if(kind==='send') {
+      tone(ctx,390,0,.09,.015,'triangle',520);
+      tone(ctx,780,.07,.12,.012,'sine',980);
+    } else {
+      tone(ctx,kind==='soft'?280:360,0,.055,kind==='soft'?.007:.012,'sine',kind==='soft'?250:430);
+    }
   };
   soundToggle?.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
     soundToggle.setAttribute('aria-pressed', String(soundEnabled));
     soundToggle.setAttribute('aria-label', soundEnabled ? 'Выключить звуковые эффекты' : 'Включить звуковые эффекты');
     const state = $('span', soundToggle); if (state) state.textContent = soundEnabled ? 'ON' : 'OFF';
-    if (soundEnabled) { playUiSound('open'); }
+    if(soundEnabled) playUiSound('open');
   });
+  // First touch/click unlocks the Web Audio context. This is required by Android Chrome.
+  document.addEventListener('pointerdown', event => {
+    if(!soundEnabled) return;
+    const target=event.target.closest('button,a,.project-card,.choice-card,summary,input,select');
+    if(!target) return;
+    const kind=target===soundToggle?'soft':
+      target.classList.contains('menu-toggle')?'open':
+      target.classList.contains('project-card')?'select':
+      target.classList.contains('sound-toggle')?'soft':
+      target.matches('input,select')?'select':'tap';
+    playUiSound(kind);
+  }, {capture:true,passive:true});
   document.addEventListener('click', event => {
-    const target = event.target.closest('button,a,.project-card,.choice-card,summary');
-    if (!target || target === soundToggle) return;
-    playUiSound(target.classList.contains('menu-toggle') || target.classList.contains('project-card') ? 'open' : 'tap');
-  }, { passive:true });
+    const target=event.target.closest('.service-item,summary,.project-card');
+    if(!target || !soundEnabled) return;
+    if(target.matches('summary')) playUiSound('open');
+    else if(target.classList.contains('service-item')) playUiSound('select');
+  }, {passive:true});
+  document.addEventListener('submit', event => {
+    if(!soundEnabled) return;
+    playUiSound('send');
+  }, true);
 
   // Touch parallax for the hero sculpture: no device-orientation permission or sensor polling.
   const heroStage = $('.hero-stage');
