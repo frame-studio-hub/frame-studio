@@ -36,7 +36,7 @@
   // Header menu.
   const menuButton = $('.menu-toggle'), mobileMenu = $('.mobile-menu');
   const closeMenu = () => {
-    menuButton?.setAttribute('aria-expanded', 'false'); menuButton?.setAttribute('aria-label', 'Open navigation');
+    menuButton?.setAttribute('aria-expanded', 'false'); menuButton?.setAttribute('aria-label', 'Открыть меню');
     mobileMenu?.classList.remove('open'); mobileMenu?.setAttribute('aria-hidden', 'true'); document.body.classList.remove('menu-open');
   };
   menuButton?.addEventListener('click', () => {
