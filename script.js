@@ -425,4 +425,5 @@
     if (document.hidden) { cancelAnimationFrame(ambientFrame); cancelAnimationFrame(labRaf); }
     else if (!reduceMotion && !coarsePointer && labCtx) drawLab();
   });
+  document.documentElement.dataset.appReady = 'true';
 })();
