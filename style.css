@@ -434,3 +434,164 @@ body {
   .hero-intro p { font-size:12px; }
   .hero-foot { margin-top:40px; }
 }
+
+
+/* FRAME LAB — dedicated mobile art direction v2 */
+@media (max-width:700px) {
+  :root { --pad:22px; }
+  html,body { overflow-x:hidden!important; }
+  .site-header {
+    position:absolute!important; height:76px!important;
+    padding:0 22px!important; border-bottom:1px solid rgba(240,240,233,.09);
+  }
+  .brand { font-size:23px!important; }
+  .brand small { font-size:7px!important; margin-top:8px!important; }
+  .menu-toggle { min-width:46px!important; min-height:46px!important; padding:12px!important; }
+  .menu-toggle span { width:26px!important; }
+  .hero {
+    height:auto!important; min-height:0!important; max-height:none!important;
+    padding:112px var(--pad) 25px!important;
+    display:flex!important; gap:0!important;
+    background:
+      radial-gradient(ellipse at 82% 37%,rgba(151,181,91,.13),transparent 38%),
+      radial-gradient(ellipse at 15% 78%,rgba(88,107,61,.09),transparent 42%),
+      #080908!important;
+  }
+  .hero-meta {
+    display:flex!important; min-height:18px; align-items:center;
+    font-size:8px!important; letter-spacing:.14em!important;
+  }
+  .hero-meta span:nth-child(2) { display:none!important; }
+  .hero-stage {
+    display:block!important; flex:none!important; min-height:0!important;
+    padding:56px 0 0!important; margin:0!important; overflow:visible!important;
+  }
+  .hero-sculpture,.hero-object,.hero-orbit { display:none!important; }
+  .hero-copy { width:100%!important; padding:0!important; }
+  .eyebrow {
+    margin:0 0 18px 1px!important; font-size:8px!important;
+    line-height:1.5!important; letter-spacing:.13em!important;
+    color:rgba(240,240,233,.58)!important;
+  }
+  .eyebrow span { margin-left:7px!important; color:var(--lime)!important; }
+  .hero-title {
+    font-size:clamp(43px,10.6vw,66px)!important;
+    line-height:.88!important; letter-spacing:-.09em!important;
+    width:100%!important; margin:0!important;
+  }
+  .title-line { white-space:nowrap!important; }
+  .title-line:nth-child(2) { padding-left:3vw!important; }
+  .title-line:nth-child(3) { font-size:.79em!important; margin-top:.14em!important; }
+  .title-outline {
+    -webkit-text-stroke:1px rgba(240,240,233,.82)!important;
+    text-shadow:0 0 26px rgba(240,240,233,.07)!important;
+  }
+  .hero-bottom {
+    display:grid!important; grid-template-columns:minmax(0,1fr) 52px!important;
+    gap:12px!important; align-items:center!important;
+    margin:30px 0 0!important; max-width:none!important;
+  }
+  .hero-intro { display:flex!important; flex-direction:column!important; gap:16px!important; min-width:0!important; }
+  .hero-intro p {
+    max-width:34ch!important; margin:0!important;
+    color:rgba(240,240,233,.72)!important; font-size:13px!important; line-height:1.65!important;
+  }
+  .hero-cta {
+    width:max-content!important; min-height:48px!important;
+    padding:0 16px!important; gap:16px!important;
+    border-color:rgba(199,255,66,.62)!important; font-size:9px!important;
+  }
+  .round-link {
+    grid-column:2!important; grid-row:1!important;
+    width:50px!important; height:50px!important;
+    border-color:rgba(240,240,233,.24)!important;
+  }
+  .hero-index { display:none!important; }
+  .hero-foot {
+    display:flex!important; justify-content:space-between!important;
+    margin-top:55px!important; padding-top:17px!important;
+    border-top:1px solid rgba(240,240,233,.1)!important;
+    font-size:7px!important; letter-spacing:.1em!important;
+  }
+  .hero-foot span:nth-child(2) { display:none!important; }
+  .ticker {
+    padding:13px 0!important; border-top:1px solid rgba(240,240,233,.1)!important;
+    border-bottom:1px solid rgba(240,240,233,.1)!important;
+    background:#0d0f0c!important;
+  }
+  .ticker-track { animation:none!important; width:100%!important; white-space:normal!important; }
+  .ticker-track span {
+    display:block!important; white-space:normal!important; text-align:center!important;
+    padding:0 18px!important; font-size:8px!important; line-height:1.8!important;
+    letter-spacing:.12em!important;
+  }
+  .ticker-track b { padding:0 9px!important; }
+  .business-value,.about,.work,.services,.process,.lab,.faq {
+    padding-top:76px!important; padding-bottom:76px!important;
+  }
+  .section-kicker {
+    display:flex!important; gap:12px!important; align-items:flex-start!important;
+    font-size:7px!important; line-height:1.6!important; letter-spacing:.09em!important;
+  }
+  .section-kicker span:last-child { max-width:48%!important; text-align:right!important; }
+  .business-value-head,.section-heading-row,.services-head {
+    display:block!important; margin:42px 0 30px!important; padding:0!important;
+  }
+  .display-heading {
+    font-size:clamp(43px,11.4vw,66px)!important;
+    line-height:.9!important; letter-spacing:-.085em!important;
+  }
+  .section-intro {
+    margin:22px 0 0!important; max-width:34ch!important;
+    font-size:13px!important; line-height:1.7!important;
+  }
+  .business-value-grid { display:block!important; }
+  .business-value-card {
+    min-height:0!important; padding:23px 0 25px!important;
+  }
+  .business-value-card + .business-value-card {
+    border-left:0!important; border-top:1px solid var(--line)!important;
+  }
+  .business-value-card h3 { margin:22px 0 10px!important; font-size:29px!important; }
+  .business-value-card p { font-size:12px!important; line-height:1.7!important; }
+  .business-value-foot { align-items:flex-start!important; flex-direction:column!important; gap:17px!important; }
+  .business-value-foot>span { font-size:8px!important; line-height:1.7!important; }
+  .about-grid { display:block!important; padding:45px 0!important; }
+  .about-side { margin:46px 0 0 auto!important; max-width:330px!important; }
+  .about-strip { display:grid!important; grid-template-columns:1fr 1fr!important; gap:13px!important; font-size:7px!important; }
+  .about-strip span { width:auto!important; }
+  .section-heading-row { padding:48px 0 28px!important; }
+  .filter-row { display:flex!important; flex-wrap:wrap!important; gap:8px 15px!important; margin:0 0 14px!important; }
+  .filter-btn { min-height:38px!important; font-size:8px!important; }
+  .project-search { width:100%!important; max-width:100%!important; margin:12px 0 22px!important; }
+  .project-grid { grid-template-columns:1fr!important; gap:35px!important; }
+  .project-offset { margin-top:0!important; }
+  .project-wide { grid-column:auto!important; width:100%!important; margin-top:0!important; }
+  .project-art,.project-wide .project-art { height:clamp(250px,76vw,390px)!important; }
+  .project-info { padding-top:13px!important; }
+  .services-head { margin:42px 0 32px!important; }
+  .service-item { grid-template-columns:28px minmax(0,1fr) 28px!important; gap:10px!important; min-height:104px!important; }
+  .service-main h3 { font-size:21px!important; }
+  .service-main p { font-size:10px!important; line-height:1.6!important; }
+  .process-layout { display:block!important; padding-top:45px!important; }
+  .process-intro { margin:20px 0 35px!important; }
+  .process-step { grid-template-columns:28px minmax(0,1fr) 18px!important; gap:10px!important; }
+  .lab-grid { display:flex!important; flex-direction:column!important; gap:30px!important; padding-top:45px!important; }
+  .lab-visual { width:100%!important; height:330px!important; }
+  .faq-layout { display:block!important; padding-top:45px!important; }
+  .faq-list { margin-top:30px!important; }
+  .faq-list summary { font-size:13px!important; line-height:1.45!important; padding:19px 0!important; }
+  .contact { min-height:0!important; padding:45px var(--pad) 30px!important; }
+  .contact-title { font-size:clamp(54px,14vw,82px)!important; margin:80px 0 40px!important; }
+  .contact-art { opacity:.28!important; }
+  .contact-bottom { grid-template-columns:1fr 1fr!important; gap:22px 12px!important; padding-bottom:35px!important; }
+  .start-button { grid-column:1/-1!important; grid-row:auto!important; min-height:50px!important; }
+  .site-footer { min-height:0!important; padding:22px var(--pad)!important; }
+}
+@media (max-width:390px) {
+  .hero { padding-top:105px!important; }
+  .hero-stage { padding-top:48px!important; }
+  .hero-title { font-size:clamp(39px,10.5vw,46px)!important; }
+  .hero-intro p { font-size:12px!important; }
+  .hero-foot { margin-top:43px!important; }
+}
