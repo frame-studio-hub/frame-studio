@@ -292,3 +292,24 @@ body {
   .business-value-card h3 { margin:24px 0 12px; }
   .business-value-foot { align-items:flex-start; flex-direction:column; }
 }
+
+/* ÉLAN BEAUTY — a practical website concept for the beauty industry */
+.art-elan{background:linear-gradient(135deg,#d9d1c5,#b9ad9e 55%,#777a68);color:#25251f;padding:3.5%;display:grid;place-items:center}
+.elan-site{position:relative;width:88%;height:88%;background:#e9e4da;overflow:hidden;box-shadow:0 24px 70px rgba(17,18,14,.32);font-family:var(--sans);display:grid;grid-template-columns:1fr .75fr;grid-template-rows:auto 1fr auto;padding:0 5%}
+.elan-nav{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(37,37,31,.2);padding:15px 0;color:#292a24}
+.elan-nav b{font-size:clamp(16px,2.2vw,27px);letter-spacing:-.09em}.elan-nav b span{color:#9a765e}
+.elan-nav small,.elan-nav i{font:7px var(--mono);letter-spacing:.08em;font-style:normal}
+.elan-nav i{background:#34382e;color:#f1eee5;padding:10px 12px}
+.elan-hero{align-self:center;padding:12% 0;position:relative;z-index:2}
+.elan-hero small,.elan-photo span,.elan-bottom{font:7px var(--mono);letter-spacing:.12em}
+.elan-hero strong{display:block;font-size:clamp(29px,5.3vw,68px);line-height:.87;letter-spacing:-.09em;margin:22px 0 15px;font-weight:600}
+.elan-hero strong span{color:#9a765e}
+.elan-hero p{font-size:clamp(8px,1vw,12px);line-height:1.5;max-width:210px;color:#65645b}
+.elan-hero>b{display:inline-block;margin-top:15px;background:#34382e;color:#f1eee5;padding:12px 14px;font:7px var(--mono);letter-spacing:.08em}
+.elan-photo{align-self:center;height:78%;position:relative;background:linear-gradient(145deg,#b6a99a,#e0d6c8 45%,#827969);overflow:hidden}
+.elan-photo div{position:absolute;width:66%;height:90%;left:18%;top:14%;border-radius:48% 48% 10% 10%;background:radial-gradient(ellipse at 50% 20%,#e7d9c7 0 18%,#8e7968 19% 31%,transparent 32%),linear-gradient(90deg,#62564a,#d0bba5 40%,#8d7763 70%,#51473d);filter:saturate(.65)}
+.elan-photo span{position:absolute;bottom:12px;left:12px;color:#f4eee4}
+.elan-side{position:absolute;right:1%;top:30%;writing-mode:vertical-rl;font:6px var(--mono);letter-spacing:.15em;color:#777368}
+.elan-bottom{grid-column:1/-1;border-top:1px solid rgba(37,37,31,.2);display:flex;justify-content:space-between;align-items:center;padding:12px 0;color:#66665c}
+.elan-caption{position:absolute;bottom:1.5%;left:4%;font-size:7px;color:rgba(255,255,255,.8)}
+@media(max-width:650px){.art-elan{padding:5%}.elan-site{width:96%;height:86%;padding:0 4%}.elan-nav small{display:none}.elan-nav i{font-size:6px;padding:8px}.elan-hero strong{font-size:clamp(27px,9vw,45px)}.elan-hero p{font-size:8px}.elan-photo{height:66%}.elan-caption{font-size:6px}}
