@@ -336,3 +336,14 @@ body {
 .mesa-dish div{position:absolute;inset:24%;border-radius:50%;background:radial-gradient(ellipse at 35% 35%,#d6a65d,#6e422a 65%,#34251d)}
 .mesa-dish span{position:absolute;bottom:-9%;left:0;font:clamp(6px,.6vw,8px) var(--mono);letter-spacing:.08em;color:#f0e8d9}
 @media(max-width:700px){.forma-site,.mesa-site{inset:6% 5%;padding:4%}.forma-copy{margin-top:13%;max-width:65%}.forma-orb{right:3%;top:31%;width:34%}.mesa-main{margin-top:13%;max-width:56%}.mesa-dish{right:1%;top:33%;width:38%}}
+
+
+/* Portfolio search */
+.project-search{display:flex;align-items:center;gap:12px;width:min(100%,360px);margin:18px 0 28px;border-bottom:1px solid rgba(240,240,233,.32);color:#c7ff42}
+.project-search>span{font:24px/1 Manrope,sans-serif}
+.project-search input{width:100%;min-width:0;padding:13px 0;background:transparent;border:0;outline:0;color:#f0f0e9;font:10px 'DM Mono',monospace;letter-spacing:.12em}
+.project-search input::placeholder{color:#92948c;opacity:1}
+.project-search:focus-within{border-color:#c7ff42}
+.project-search-empty{margin:0 0 28px;color:#c7ff42;font:10px 'DM Mono',monospace;letter-spacing:.08em}
+.project-card.search-hidden{display:none!important}
+@media(max-width:700px){.project-search{width:100%;margin:12px 0 22px}}
