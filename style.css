@@ -234,3 +234,30 @@ body {
     transition: none !important;
   }
 }
+
+
+/* FRAME LAB refinement: stable content, clear CTA, and resilient mobile layout. */
+.hero-intro{display:flex;flex-direction:column;align-items:flex-start;gap:15px}
+.hero-cta{display:inline-flex;align-items:center;gap:18px;padding:11px 14px;border:1px solid rgba(199,255,66,.55);color:var(--white);font:9px var(--mono);letter-spacing:.09em;transition:background .25s,color .25s,border-color .25s}
+.hero-cta span{color:var(--lime);font-size:15px}
+.hero-cta:hover{background:var(--lime);color:#090a09;border-color:var(--lime)}
+.hero-cta:hover span{color:#090a09}
+@media(max-width:700px){
+  .js .reveal,.reveal,.js .reveal.in-view{
+    opacity:1!important;visibility:visible!important;transform:none!important;
+    transition:none!important;animation:none!important;
+  }
+  .hero{min-height:0;padding-bottom:34px}
+  .hero-stage{min-height:500px}
+  .hero-bottom{align-items:end;gap:12px}
+  .hero-intro{gap:12px;min-width:0}
+  .hero-cta{font-size:8px;padding:10px 11px;gap:10px}
+  .faq-layout{padding-top:48px}
+  .faq-list{margin-top:34px}
+  .section-kicker{gap:14px}
+  .section-kicker span:last-child{max-width:48%;line-height:1.5}
+  .project-card:focus-visible,.filter-btn:focus-visible,.hero-cta:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-cta{transition:none}
+}
