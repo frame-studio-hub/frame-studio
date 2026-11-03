@@ -48,7 +48,7 @@
   window.addEventListener('keydown', e => { if (e.key === 'Escape') { closeMenu(); closeProjectModal(); } });
 
   // Project filters and live search work together.
-  const filterButtons = $('.filter-btn'), projectCards = $('.project-card');
+  const filterButtons = $$('.filter-btn'), projectCards = $$('.project-card');
   const projectSearch = $('#project-search'), projectSearchEmpty = $('#project-search-empty');
   let activeProjectFilter = 'all';
   const updateProjectResults = () => {
