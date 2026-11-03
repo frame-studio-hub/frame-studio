@@ -201,7 +201,7 @@
       $('#start').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     }));
     $$('[data-back]', planner).forEach(button => button.addEventListener('click', () => showPlannerStep(plannerIndex - 1)));
-    planner.addEventListener('submit', event => {
+    planner.addEventListener('submit', async event => {
       event.preventDefault();
       if (!planner.reportValidity()) return;
       const lines = [
@@ -227,6 +227,32 @@
       stepLabel.textContent = 'ГОТОВО / БРИФ СФОРМИРОВАН';
       progressFill.style.width = '100%';
       resultPanel.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+
+      // Save the brief before telling the visitor that the request was sent.
+      const submitButton = planner.querySelector('button[type="submit"]');
+      const status = $('#copy-status');
+      const resultMessage = $('#planner-result p');
+      if (submitButton) { submitButton.disabled = true; submitButton.textContent = 'ОТПРАВЛЯЕМ…'; }
+      if (status) { status.textContent = 'Отправляем заявку в FRAME LAB…'; status.classList.remove('is-error'); }
+      try {
+        const payload = Object.fromEntries(new FormData(planner).entries());
+        payload.brief = lines.join('\\n');
+        const response = await fetch('https://frame-lab-3wx.pages.dev/public/requests', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || `Ошибка сервера (${response.status})`);
+        if (resultMessage) resultMessage.textContent = 'Заявка успешно сохранена в FRAME LAB. Мы свяжемся с вами по указанному контакту.';
+        if (status) status.textContent = 'Заявка сохранена. Можете скопировать бриф себе.';
+      } catch (error) {
+        if (resultMessage) resultMessage.textContent = 'Не удалось отправить заявку автоматически. Скопируйте бриф и отправьте его нам в Instagram.';
+        if (status) { status.textContent = 'Ошибка отправки: ' + error.message + '. Бриф можно скопировать и отправить вручную.'; status.classList.add('is-error'); }
+        console.error('[FRAME LAB request]', error);
+      } finally {
+        if (submitButton) { submitButton.disabled = false; submitButton.textContent = 'СОБРАТЬ БРИФ'; }
+      }
     });
     $('#copy-brief')?.addEventListener('click', async () => {
       const text = briefOutput.textContent;
