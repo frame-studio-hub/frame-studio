@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://frame-studio-hub.github.io/frame-studio/sitemap.xml
