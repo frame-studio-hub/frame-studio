@@ -261,3 +261,10 @@ body {
 @media(prefers-reduced-motion:reduce){
   .hero-cta{transition:none}
 }
+
+@media(max-width:700px){
+  /* Keep a single slow hero drift; stop stacked 3D loops from taxing mobile GPUs. */
+  .sculpture-loop,.sculpture-glass,.sculpture-core,.sculpture-beam{animation:none!important}
+  .hero-sculpture{animation:mobile-drift 24s ease-in-out infinite}
+  .hero-object{animation:none!important}
+}
