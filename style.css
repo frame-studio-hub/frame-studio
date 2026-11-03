@@ -829,3 +829,93 @@ body {
  .project-card,.project-art,.project-art>*{transition:none!important}
  .project-card:hover{transform:none!important}
 }
+
+
+/* FRAME LAB // FUTURE ARCHIVE — immersive project interface */
+#work{position:relative;isolation:isolate}
+#work:before{content:"";position:absolute;z-index:-1;inset:5% -8vw 0;background:radial-gradient(ellipse at 18% 35%,rgba(69,255,214,.075),transparent 32%),radial-gradient(ellipse at 82% 68%,rgba(137,92,255,.09),transparent 34%);pointer-events:none}
+#work .section-kicker{border-top:1px solid rgba(199,255,66,.26);padding-top:16px}
+#work .section-heading-row{position:relative}
+#work .section-heading-row:after{content:"FL—09 / ARCHIVE";position:absolute;right:0;top:-22px;color:rgba(199,255,66,.6);font:9px var(--mono);letter-spacing:.2em}
+#work .section-intro{border-left:1px solid rgba(199,255,66,.45);padding:12px 0 12px 18px}
+#work .filter-row{display:flex;flex-wrap:wrap;align-items:center;border-top:1px solid rgba(255,255,255,.12);border-bottom:1px solid rgba(255,255,255,.12);padding:14px 0;gap:10px 28px!important}
+#work .filter-btn{border:1px solid transparent;padding:9px 12px!important;font-size:9px;letter-spacing:.12em}
+#work .filter-btn.active{border-color:rgba(199,255,66,.48);background:rgba(199,255,66,.07);color:var(--lime)}
+#work .filter-btn:after{display:none}
+#work .project-search{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.025);padding:10px 14px;backdrop-filter:blur(16px)}
+.project-grid{gap:62px 24px!important}
+.project-card{padding:0 0 18px!important;border:1px solid rgba(255,255,255,.11);background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.008) 45%,rgba(199,255,66,.018));box-shadow:0 18px 60px rgba(0,0,0,.22);overflow:hidden;transition:transform .6s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s!important}
+.project-card:before{content:"";position:absolute;z-index:8;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 15%,rgba(255,255,255,.055) 35%,transparent 52%);transform:translateX(-130%);transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.project-card:hover:before{transform:translateX(130%)}
+.project-card:hover{transform:translateY(-10px)!important;border-color:rgba(199,255,66,.5);box-shadow:0 35px 90px rgba(0,0,0,.42),0 0 38px rgba(199,255,66,.08)}
+.project-art,.project-wide .project-art{aspect-ratio:1/1.06!important;border:0!important;box-shadow:none!important;background-color:#090d0d!important}
+.project-art:before{z-index:5!important;mix-blend-mode:normal!important;background:linear-gradient(180deg,rgba(3,7,9,.22),transparent 20%,transparent 62%,rgba(3,7,9,.56)),repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0,rgba(255,255,255,.018) 1px,transparent 1px,transparent 4px)!important}
+.project-art:after{inset:13px!important;z-index:7!important;border:1px solid rgba(210,255,245,.23)!important;background:linear-gradient(90deg,rgba(74,255,220,.08),transparent 28%,transparent 70%,rgba(199,255,66,.07))!important;opacity:1!important}
+.project-card .project-art{position:relative}
+.project-card .project-art .art-coordinate{position:absolute;z-index:8;left:24px;top:24px;color:rgba(220,255,245,.65);font:8px var(--mono);letter-spacing:.16em}
+.project-card .project-art .art-label{position:absolute;z-index:8;right:24px;bottom:24px;color:rgba(220,255,245,.65);font:8px var(--mono);letter-spacing:.16em}
+.project-info{padding:18px 20px 0!important;display:flex;align-items:center;justify-content:space-between}
+.project-info:before{content:"CASE / 0" attr(data-index);display:none}
+.project-info h3{font-size:clamp(20px,1.8vw,27px)!important;letter-spacing:-.07em!important}
+.project-type{font-size:8px!important;color:rgba(220,255,245,.52)!important;letter-spacing:.18em!important}
+.project-arrow{border-radius:50%!important;border:1px solid rgba(199,255,66,.35)!important;color:var(--lime)!important;width:42px!important;height:42px!important;flex-basis:42px!important}
+.project-card:after{content:"SYSTEM ONLINE  •  VIEW CASE ↗";display:block;margin:13px 20px 0;padding-top:11px;border-top:1px solid rgba(255,255,255,.09);font:7px var(--mono);letter-spacing:.17em;color:rgba(199,255,66,.48)}
+/* HUD glass overlays and floating data chips */
+.project-art .hud-chip{position:absolute;z-index:8;display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid rgba(199,255,66,.34);background:rgba(5,12,12,.55);backdrop-filter:blur(12px);color:rgba(230,255,245,.88);font:7px var(--mono);letter-spacing:.12em;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.project-art .hud-chip:before{content:"";width:5px;height:5px;border-radius:50%;background:var(--lime);box-shadow:0 0 9px var(--lime)}
+.project-art .hud-a{left:24px;bottom:58px}
+.project-art .hud-b{right:24px;top:24px;border-color:rgba(107,229,255,.32)}
+.project-art .hud-b:before{background:#6be5ff;box-shadow:0 0 9px #6be5ff}
+.project-art .hud-cross{position:absolute;z-index:8;width:22px;height:22px;right:23px;bottom:58px;opacity:.65}
+.project-art .hud-cross:before,.project-art .hud-cross:after{content:"";position:absolute;background:rgba(199,255,66,.7)}
+.project-art .hud-cross:before{width:22px;height:1px;top:10px}.project-art .hud-cross:after{height:22px;width:1px;left:10px}
+.project-art .hud-line{position:absolute;z-index:8;left:24px;right:24px;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(120,245,225,.4),transparent);opacity:.55}
+.project-art .hud-ring{position:absolute;z-index:3;width:72%;aspect-ratio:1;border:1px solid rgba(199,255,66,.22);border-radius:50%;left:14%;top:14%;box-shadow:0 0 35px rgba(80,255,220,.08),inset 0 0 35px rgba(80,255,220,.05);pointer-events:none}
+.project-art .hud-ring:before,.project-art .hud-ring:after{content:"";position:absolute;inset:9%;border:1px dashed rgba(107,229,255,.25);border-radius:50%}
+.project-art .hud-ring:after{inset:20%;border-style:solid;border-color:rgba(199,255,66,.18)}
+.project-card:hover .hud-ring{transform:rotate(28deg) scale(1.05)}
+/* Give each existing artwork a more advanced color language */
+.art-elan{background:radial-gradient(ellipse at 50% 50%,#1b7770 0,#123b3b 34%,#071314 78%)!important}
+.elan-site{outline:1px solid rgba(120,255,225,.65);box-shadow:0 0 0 8px rgba(91,255,225,.05),0 35px 100px rgba(0,0,0,.65),0 0 50px rgba(91,255,225,.13)!important}
+.elan-site:after{content:"INTERFACE / 001";position:absolute;right:8px;top:48%;writing-mode:vertical-rl;font:7px var(--mono);letter-spacing:.2em;color:rgba(20,65,60,.7)}
+.art-forma{background:radial-gradient(ellipse at 50% 45%,#6651a1,#24203e 42%,#090b16 82%)!important}
+.forma-site{outline:1px solid rgba(183,161,255,.7);box-shadow:0 0 0 8px rgba(183,161,255,.05),0 35px 100px rgba(0,0,0,.65),0 0 55px rgba(151,118,255,.17)!important}
+.forma-orb{background:radial-gradient(circle at 35% 30%,#fff 0,#c5b4ff 15%,#7965c5 42%,#211d45 70%,transparent 72%)!important}
+.art-mesa{background:radial-gradient(ellipse at 50% 45%,#9a5d27,#38251d 45%,#090c0b 85%)!important}
+.mesa-site{outline:1px solid rgba(255,192,112,.5);box-shadow:0 0 0 8px rgba(255,192,112,.045),0 35px 100px rgba(0,0,0,.7),0 0 45px rgba(255,150,75,.12)!important}
+.art-aether{background:radial-gradient(ellipse at 50% 48%,#1a7c72 0,#103c3e 42%,#050d12 85%)!important}
+.aether-orb{background:radial-gradient(circle at 30% 25%,#f5ffff 0,#92fff1 7%,#287b83 27%,#111b29 62%,#05070c 80%)!important;box-shadow:0 0 45px rgba(80,255,225,.28),0 35px 90px #020608,inset -25px -35px 60px #03070b!important}
+.art-nord{background:radial-gradient(ellipse at 50% 45%,#496d8a,#182b42 48%,#070d17 88%)!important}
+.nord-panel{background:linear-gradient(145deg,#e6f5f6,#a9c4cb 78%,#688a9b)!important;outline:1px solid rgba(140,239,255,.6)}
+.nord-orb{background:radial-gradient(circle at 35% 30%,#efffff,#78d7ef 35%,#274f73 72%,transparent 74%)!important}
+.art-vanta{background:radial-gradient(ellipse at 50% 48%,#45409b,#171a42 48%,#050713 86%)!important}
+.vanta-rings i{border-color:rgba(124,205,255,.8)!important;box-shadow:0 0 30px rgba(99,130,255,.24)!important}
+.art-flux{background:radial-gradient(ellipse at 50% 45%,#3d8b8a,#16434c 46%,#061116 88%)!important}
+.flux-type{color:rgba(150,255,231,.88)!important;text-shadow:0 0 45px rgba(87,255,221,.35)}
+.art-object{background:radial-gradient(ellipse at 50% 48%,#7482a0,#303c59 48%,#080d19 88%)!important}
+.object-stack i{border-color:rgba(175,220,255,.7)!important;box-shadow:inset 10px 0 40px rgba(255,255,255,.75),18px 20px 45px rgba(0,0,0,.3),0 0 24px rgba(120,190,255,.14)!important}
+.art-sol{background:radial-gradient(ellipse at 50% 45%,#8e713e,#40321e 48%,#0b0d0a 88%)!important}
+.sol-sun{background:radial-gradient(circle at 35% 28%,#fff6d7,#f2c878 35%,#aa6a34 67%,#38251d 100%)!important;box-shadow:0 0 70px rgba(255,190,95,.24),0 30px 80px rgba(0,0,0,.5)!important}
+@keyframes hud-pulse{0%,100%{opacity:.45}50%{opacity:1}}
+@keyframes hud-scan{0%{transform:translateY(-130%)}100%{transform:translateY(130%)}}
+.project-card .project-art:after{animation:hud-pulse 5s ease-in-out infinite}
+.project-card:nth-child(3n+1) .project-art:after{border-color:rgba(90,255,220,.35)!important}
+.project-card:nth-child(3n+2) .project-art:after{border-color:rgba(140,160,255,.38)!important}
+.project-card:nth-child(3n) .project-art:after{border-color:rgba(255,190,110,.32)!important}
+@media(max-width:1050px){.project-grid{gap:42px 18px!important}.project-info{padding-left:15px!important;padding-right:15px!important}}
+@media(max-width:700px){
+ #work .section-heading-row:after{top:-18px;font-size:7px}
+ #work .filter-row{gap:6px!important}
+ #work .filter-btn{font-size:8px;padding:8px 9px!important}
+ .project-grid{grid-template-columns:1fr!important;gap:28px!important}
+ .project-card{padding-bottom:14px!important}
+ .project-art,.project-wide .project-art{aspect-ratio:1/1.02!important}
+ .project-info{padding:15px 15px 0!important}
+ .project-info h3{font-size:24px!important}
+ .project-card:after{margin:10px 15px 0}
+ .project-art .hud-a{left:20px;bottom:48px}
+ .project-art .hud-b{right:20px;top:20px}
+ .project-art .art-coordinate{left:20px!important;top:20px!important}
+ .project-art .art-label{right:20px!important;bottom:20px!important}
+}
+@media(prefers-reduced-motion:reduce){.project-card:before,.project-card .project-art:after{animation:none!important;transition:none!important}}
