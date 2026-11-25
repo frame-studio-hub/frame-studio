@@ -427,3 +427,175 @@
   });
   document.documentElement.dataset.appReady = 'true';
 })();
+
+
+// FRAME LAB — exact liquid deformation from the approved three-button demo
+(()=>{
+  if(!window.matchMedia('(pointer:fine)').matches ||
+     window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const selector=[
+    '.header-contact','.hero-cta','.round-link','.text-link','.start-button',
+    '.planner-next','.planner-back','.lab-button','.material-btn','.filter-btn',
+    '.sound-toggle','.menu-toggle','.modal-close','.copy-brief',
+    '.service-brief-link','.modal-project-link','.business-value-foot a'
+  ].join(',');
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  const lerp=(a,b,t)=>a+(b-a)*t;
+
+  document.querySelectorAll(selector).forEach(el=>{
+    if(el.dataset.frameLiquid==='1') return;
+    el.dataset.frameLiquid='1';
+    el.classList.add('frame-liquid-button');
+
+    // Keep every original label, icon and accessible name above the canvas.
+    [...el.childNodes].forEach(node=>{
+      if(node.nodeType===Node.TEXT_NODE && node.textContent.trim()){
+        const span=document.createElement('span');
+        span.textContent=node.textContent;
+        el.replaceChild(span,node);
+      }
+    });
+
+    const canvas=document.createElement('canvas');
+    canvas.className='frame-liquid-canvas';
+    canvas.setAttribute('aria-hidden','true');
+    el.prepend(canvas);
+    const ctx=canvas.getContext('2d');
+    if(!ctx) return;
+
+    const PAD=76;
+    let W=1,H=1,DPR=1,active=false;
+    let mouse={x:.5,y:.5},smooth={x:.5,y:.5},tail={x:.5,y:.5};
+    let velocity={x:0,y:0},power=0,targetPower=0,raf=0,time=0;
+
+    const resize=()=>{
+      const r=el.getBoundingClientRect();
+      W=Math.max(1,r.width); H=Math.max(1,r.height);
+      DPR=Math.min(window.devicePixelRatio||1,2);
+      canvas.width=Math.round((W+PAD*2)*DPR);
+      canvas.height=Math.round((H+PAD*2)*DPR);
+      canvas.style.width=(W+PAD*2)+'px';
+      canvas.style.height=(H+PAD*2)+'px';
+    };
+
+    const shapePoint=t=>{
+      const a=t*Math.PI*2,co=Math.cos(a),si=Math.sin(a);
+      const round=Math.max(W,H)/Math.max(1,Math.min(W,H))<1.28;
+      const n=round?2:4;
+      return{
+        x:W/2+Math.sign(co)*Math.pow(Math.abs(co),2/n)*(W/2-2),
+        y:H/2+Math.sign(si)*Math.pow(Math.abs(si),2/n)*(H/2-2)
+      };
+    };
+
+    const render=()=>{
+      time+=.016;
+      power=lerp(power,targetPower,.065);
+      const follow=active?.12:.08,oldX=smooth.x,oldY=smooth.y;
+      smooth.x=lerp(smooth.x,mouse.x,follow);
+      smooth.y=lerp(smooth.y,mouse.y,follow);
+      velocity.x=lerp(velocity.x,smooth.x-oldX,.22);
+      velocity.y=lerp(velocity.y,smooth.y-oldY,.22);
+      tail.x=lerp(tail.x,smooth.x,.055);
+      tail.y=lerp(tail.y,smooth.y,.055);
+
+      ctx.setTransform(1,0,0,1,0,0);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.setTransform(DPR,0,0,DPR,PAD*DPR,PAD*DPR);
+
+      const S=Math.max(.22,Math.min(W/360,H/120));
+      const pts=[],N=360;
+
+      for(let i=0;i<N;i++){
+        const t=i/N,base=shapePoint(t);
+        const dx=base.x-smooth.x*W,dy=base.y-smooth.y*H;
+        const dist=Math.hypot(dx,dy);
+        const influence=Math.exp(-Math.pow(dist/(155*S),2));
+        const tx=base.x-tail.x*W,ty=base.y-tail.y*H;
+        const td=Math.hypot(tx,ty);
+        const trailing=Math.exp(-Math.pow(td/(15.625*S),2));
+        const nx=dx/(dist||1),ny=dy/(dist||1);
+
+        const wave=
+          Math.sin(t*21+smooth.x*W*.012+time*.58)*2.5+
+          Math.sin(t*37-smooth.y*H*.015-time*.42)*1.35+
+          Math.cos(t*53+smooth.y*H*.011+time*.28)*.65;
+        const ripple=Math.sin(dist*.055/S-time*2.1)*2.2*S*
+          Math.exp(-Math.pow(dist/(115*S),2));
+        const speed=Math.min(1,Math.hypot(velocity.x*W,velocity.y*H)/(5*S));
+        const displacement=active?power*(
+          influence*(34+speed*5)*S+
+          trailing*5*S+
+          wave*influence*.48*S+
+          ripple*.3
+        ):0;
+        const shear=active?power*Math.sin(t*13+time*.46)*influence*3.2*S:0;
+        const drag=active?power*speed*influence*5*S:0;
+
+        pts.push({
+          x:base.x+nx*displacement-dy/(dist||1)*shear-velocity.x*W*drag*.22,
+          y:base.y+ny*displacement+dx/(dist||1)*shear-velocity.y*H*drag*.22
+        });
+      }
+
+      const path=new Path2D();
+      for(let i=0;i<N;i++){
+        const a=pts[i],b=pts[(i+1)%N],mx=(a.x+b.x)/2,my=(a.y+b.y)/2;
+        if(i===0) path.moveTo(mx,my);
+        path.quadraticCurveTo(a.x,a.y,mx,my);
+      }
+      path.closePath();
+      ctx.fillStyle='#292729';
+      ctx.fill(path);
+
+      if(active||power>.001){
+        ctx.save();
+        ctx.clip(path);
+        const gx=lerp(smooth.x,tail.x,.2)*W;
+        const gy=lerp(smooth.y,tail.y,.2)*H;
+        const grad=ctx.createRadialGradient(gx-20*S,gy-15*S,2*S,gx,gy,340*S);
+        grad.addColorStop(0,'rgba(239,183,187,1)');
+        grad.addColorStop(.22,'rgba(220,169,190,.99)');
+        grad.addColorStop(.46,'rgba(184,164,199,.96)');
+        grad.addColorStop(.72,'rgba(133,157,185,.86)');
+        grad.addColorStop(1,'rgba(41,39,41,0)');
+        ctx.fillStyle=grad;
+        ctx.fillRect(-PAD,-PAD,W+PAD*2,H+PAD*2);
+
+        const sheen=ctx.createRadialGradient(
+          gx-38*S,gy-27*S,1*S,gx-24*S,gy-18*S,125*S
+        );
+        sheen.addColorStop(0,'rgba(255,239,237,.2)');
+        sheen.addColorStop(.45,'rgba(255,220,229,.08)');
+        sheen.addColorStop(1,'rgba(255,224,225,0)');
+        ctx.fillStyle=sheen;
+        ctx.fillRect(-PAD,-PAD,W+PAD*2,H+PAD*2);
+        ctx.restore();
+      }
+
+      if(active||power>.002) raf=requestAnimationFrame(render);
+      else raf=0;
+    };
+
+    const start=()=>{if(!raf) raf=requestAnimationFrame(render);};
+    const move=e=>{
+      const r=el.getBoundingClientRect();
+      mouse.x=clamp((e.clientX-r.left)/r.width,0,1);
+      mouse.y=clamp((e.clientY-r.top)/r.height,0,1);
+      start();
+    };
+
+    el.addEventListener('pointerenter',e=>{
+      active=true;targetPower=1;move(e);
+    });
+    el.addEventListener('pointermove',move,{passive:true});
+    el.addEventListener('pointerleave',()=>{
+      active=false;targetPower=0;start();
+    });
+    resize();
+    if('ResizeObserver' in window) new ResizeObserver(()=>{resize();start();}).observe(el);
+    else window.addEventListener('resize',()=>{resize();start();},{passive:true});
+    render();
+  });
+})();
