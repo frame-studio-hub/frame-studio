@@ -1252,3 +1252,107 @@ section.contact .contact-bottom > a.start-button:after{
     letter-spacing:.13em!important;
   }
 }
+
+
+/* FRAME LAB — original Canvas liquid buttons, tuned for the live site */
+.frame-liquid-button{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:visible!important;
+  border-radius:999px!important;
+  border-color:transparent!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#f0f0e9!important;
+  -webkit-text-fill-color:#f0f0e9!important;
+  text-decoration:none!important;
+}
+.frame-liquid-button>.frame-liquid-canvas{
+  position:absolute!important;
+  z-index:1!important;
+  left:-76px!important;
+  top:-76px!important;
+  width:calc(100% + 152px)!important;
+  height:calc(100% + 152px)!important;
+  display:block!important;
+  overflow:visible!important;
+  pointer-events:none!important;
+}
+.frame-liquid-button>*:not(.frame-liquid-canvas){
+  position:relative;
+  z-index:2;
+}
+.frame-liquid-button:hover,
+.frame-liquid-button:focus-visible{
+  color:#f0f0e9!important;
+  -webkit-text-fill-color:#f0f0e9!important;
+}
+.frame-liquid-button .ui-arrow,
+.frame-liquid-button span,
+.frame-liquid-button b,
+.frame-liquid-button sup{color:inherit}
+.frame-liquid-button.header-contact{
+  display:inline-flex!important;
+  align-items:center;
+  gap:9px;
+  padding:12px 18px!important;
+}
+.frame-liquid-button.text-link{
+  display:inline-flex!important;
+  align-items:center;
+  gap:17px!important;
+  padding:12px 17px!important;
+  border:1px solid rgba(240,240,233,.2)!important;
+}
+.frame-liquid-button.filter-btn{
+  min-height:35px;
+  padding:9px 13px!important;
+  border:1px solid rgba(240,240,233,.13)!important;
+  font-size:9px;
+}
+.frame-liquid-button.filter-btn.active{
+  border-color:rgba(199,255,66,.36)!important;
+}
+.frame-liquid-button.round-link{
+  border:0!important;
+  border-radius:50%!important;
+}
+.frame-liquid-button.menu-toggle,
+.frame-liquid-button.modal-close{
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+  min-height:44px!important;
+  padding:0!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:0!important;
+  border-radius:50%!important;
+}
+.frame-liquid-button.modal-close{font-size:23px!important}
+.frame-liquid-button.sound-toggle{
+  padding:9px 13px!important;
+  border:0!important;
+}
+.frame-liquid-button.lab-button,
+.frame-liquid-button.material-btn{
+  padding:10px 14px!important;
+  border:0!important;
+}
+.frame-liquid-button.planner-next,
+.frame-liquid-button.planner-back{
+  padding:0 18px!important;
+  border:0!important;
+  min-height:48px;
+}
+.frame-liquid-button.start-button{
+  padding:16px 20px!important;
+  border:0!important;
+}
+@media(hover:none){
+  .frame-liquid-canvas{display:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .frame-liquid-canvas{display:none!important}
+}
