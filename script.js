@@ -658,7 +658,7 @@
       };
       const tickMobileRail = now => {
         mobileAutoFrame = 0;
-        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || orbitDrag) return;
+        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || orbitDrag || modal?.classList.contains('open')) return;
         if (!mobileAutoLast) mobileAutoLast = now;
         const dt = Math.min(40, now - mobileAutoLast);
         mobileAutoLast = now;
@@ -667,7 +667,7 @@
         mobileAutoFrame = requestAnimationFrame(tickMobileRail);
       };
       const startMobileRail = () => {
-        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || mobileAutoFrame) return;
+        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || mobileAutoFrame || modal?.classList.contains('open')) return;
         orbit.classList.add('is-auto-gliding');
         mobileAutoLast = 0;
         mobileAutoFrame = requestAnimationFrame(tickMobileRail);
