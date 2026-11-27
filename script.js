@@ -638,25 +638,20 @@
       before.reverse().forEach(node => orbitRing.prepend(node));
       after.forEach(node => orbitRing.append(node));
       orbitRailGroupWidth = orbitNodes.reduce((sum, node) => sum + node.getBoundingClientRect().width, 0) + gap * orbitNodes.length;
-      orbit.scrollLeft = orbitRailGroupWidth;
+      // CSS marquee runs independently of viewport visibility and page scrolling.
+      orbit.style.setProperty('--orbit-loop-width', orbitRailGroupWidth + 'px');
+      orbit.style.setProperty('--orbit-marquee-duration', (orbitRailGroupWidth / 55) + 's');
+      orbit.scrollLeft = 0;
       orbitRailEnabled = true;
     };
     setupInfiniteMobileRail();
 
     if (!orbitDesktop.matches) {
-      let mobileScrollFrame = 0;
-      let mobileAutoFrame = 0;
-      let mobileAutoLast = 0;
       let mobileResumeTimer = 0;
-      // Autoplay is deliberately independent of IntersectionObserver.
-      // Some mobile browsers report a stale/non-intersecting state for nested
-      // overflow containers and can leave the rail permanently stopped.
+      let mobileSyncTimer = 0;
       const mobileRailQuery = window.matchMedia('(max-width: 900px)');
       const stopMobileRail = () => {
-        if (mobileAutoFrame) cancelAnimationFrame(mobileAutoFrame);
-        mobileAutoFrame = 0;
-        mobileAutoLast = 0;
-        orbit.classList.remove('is-auto-gliding');
+        orbit.classList.add('is-auto-paused');
       };
       const centerMobileCard = () => {
         const center = orbit.getBoundingClientRect().left + orbit.clientWidth / 2;
@@ -678,46 +673,24 @@
           syncOrbitSelection();
         }
       };
-      const tickMobileRail = now => {
-        mobileAutoFrame = 0;
-        if (document.hidden || !mobileRailQuery.matches || orbitDrag || modal?.classList.contains('open')) return;
-        if (!mobileAutoLast) mobileAutoLast = now;
-        const dt = Math.min(40, now - mobileAutoLast);
-        mobileAutoLast = now;
-        // 55 px/s gives an unmistakable continuous glide while keeping covers readable.
-        orbit.scrollLeft += dt * .055;
-        if (orbitRailEnabled && orbitRailGroupWidth > 0) {
-          const lower = orbitRailGroupWidth * .5;
-          const upper = orbitRailGroupWidth * 1.5;
-          if (orbit.scrollLeft < lower) orbit.scrollLeft += orbitRailGroupWidth;
-          else if (orbit.scrollLeft >= upper) orbit.scrollLeft -= orbitRailGroupWidth;
-        }
-        mobileAutoFrame = requestAnimationFrame(tickMobileRail);
-      };
       const startMobileRail = () => {
-        if (document.hidden || !mobileRailQuery.matches || mobileAutoFrame || modal?.classList.contains('open')) return;
+        if (document.hidden || !mobileRailQuery.matches || modal?.classList.contains('open')) return;
         orbit.classList.add('is-auto-gliding');
-        mobileAutoLast = 0;
-        mobileAutoFrame = requestAnimationFrame(tickMobileRail);
+        orbit.classList.remove('is-auto-paused');
+        if (!mobileSyncTimer) mobileSyncTimer = window.setInterval(centerMobileCard, 240);
+        centerMobileCard();
       };
       const resumeMobileRail = delay => {
         if (mobileResumeTimer) window.clearTimeout(mobileResumeTimer);
         mobileResumeTimer = window.setTimeout(() => {
           mobileResumeTimer = 0;
+          // Return the scroll viewport to neutral; the CSS animation owns motion.
+          orbit.scrollLeft = 0;
           startMobileRail();
         }, delay);
       };
-      orbit.addEventListener('scroll', () => {
-        if (mobileScrollFrame) return;
-        mobileScrollFrame = requestAnimationFrame(() => {
-          mobileScrollFrame = 0;
-          centerMobileCard();
-        });
-      }, { passive:true });
-      orbit.addEventListener('touchstart', () => {
-        stopMobileRail();
-        if (mobileResumeTimer) window.clearTimeout(mobileResumeTimer);
-      }, { passive:true });
+      orbit.addEventListener('scroll', centerMobileCard, { passive:true });
+      orbit.addEventListener('touchstart', stopMobileRail, { passive:true });
       orbit.addEventListener('touchend', () => resumeMobileRail(1800), { passive:true });
       orbit.addEventListener('touchcancel', () => resumeMobileRail(1800), { passive:true });
       orbit.addEventListener('pointerdown', event => {
@@ -730,13 +703,14 @@
         stopMobileRail();
         resumeMobileRail(3600);
       });
-      // Do not stop autoplay when the section leaves the viewport: on iOS,
-      // nested overflow + IO can deliver a stale false entry and never recover.
       startMobileRail();
       window.addEventListener('pageshow', startMobileRail);
       window.addEventListener('focus', startMobileRail);
       window.addEventListener('resize', () => {
-        if (mobileRailQuery.matches) startMobileRail();
+        if (mobileRailQuery.matches) {
+          setupInfiniteMobileRail();
+          startMobileRail();
+        }
       }, { passive:true });
       const mobileModalObserver = new MutationObserver(() => {
         if (modal?.classList.contains('open')) stopMobileRail();
@@ -748,15 +722,10 @@
         else startMobileRail();
       });
       mobileRailQuery.addEventListener?.('change', event => {
-        if (event.matches) startMobileRail();
-        else stopMobileRail();
-      });
-      // Kick off autoplay immediately instead of waiting for the first
-      // IntersectionObserver delivery (which can be late on iOS Safari).
-      requestAnimationFrame(() => {
-        if (orbitRailEnabled && orbitRailGroupWidth > 0) orbit.scrollLeft = orbitRailGroupWidth;
-        centerMobileCard();
-        startMobileRail();
+        if (event.matches) {
+          setupInfiniteMobileRail();
+          startMobileRail();
+        } else stopMobileRail();
       });
     }
 
