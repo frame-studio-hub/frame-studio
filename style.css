@@ -4519,3 +4519,109 @@ button,a{-webkit-tap-highlight-color:transparent}
   .ticker-track { animation: none !important; }
   .project-card, .matter-card, .service-item, .hero-visual { transition-duration: .01ms !important; }
 }
+
+
+/* MOBILE PROJECT DECK — living editorial carousel */
+@media (max-width: 900px) {
+  .project-orbit-module {
+    position: relative;
+    margin: 34px calc(-1 * var(--mobile-gutter, 20px)) 58px;
+    padding: 22px 0 18px;
+    overflow: hidden;
+    border-top: 1px solid rgba(220,235,215,.13);
+    border-bottom: 1px solid rgba(220,235,215,.13);
+    background:
+      radial-gradient(ellipse at 50% 54%, rgba(151,190,119,.09), transparent 57%),
+      linear-gradient(180deg, rgba(255,255,255,.018), transparent 35%, rgba(0,0,0,.12));
+  }
+  .project-orbit-heading { padding: 0 var(--mobile-gutter,20px); }
+  .project-orbit-scene {
+    height: clamp(315px, 91vw, 390px);
+    margin: 14px 0 5px;
+    overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 50%;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  }
+  .project-orbit-scene::-webkit-scrollbar { display:none; }
+  .project-orbit-ring {
+    position: relative; inset: auto;
+    display: flex; align-items: center;
+    width: max-content; height: 100%;
+    gap: 15px; padding: 20px 50vw;
+    transform: none !important; transition: none !important;
+    perspective: none;
+  }
+  .project-orbit-node {
+    position: relative; left: auto; top: auto;
+    flex: 0 0 min(76vw, 304px);
+    width: min(76vw, 304px);
+    height: clamp(260px, 75vw, 316px);
+    border-radius: 13px;
+    scroll-snap-align: center;
+    transform: scale(.88) translateY(9px) !important;
+    transform-origin: center;
+    opacity: .58;
+    filter: saturate(.72) brightness(.78);
+    transition:
+      transform .72s cubic-bezier(.2,.78,.2,1),
+      opacity .65s ease, filter .65s ease,
+      border-color .55s ease, box-shadow .65s ease;
+    backface-visibility: visible;
+    box-shadow: 0 18px 48px rgba(0,0,0,.32);
+  }
+  .project-orbit-node.is-current {
+    opacity: 1;
+    filter: saturate(1) brightness(1);
+    transform: scale(1) translateY(-3px) !important;
+    border-color: color-mix(in srgb, var(--deck-accent,#c7ff42) 70%, white 8%);
+    box-shadow:
+      0 30px 80px rgba(0,0,0,.48),
+      0 0 0 1px color-mix(in srgb, var(--deck-accent,#c7ff42) 20%, transparent),
+      0 0 46px color-mix(in srgb, var(--deck-accent,#c7ff42) 12%, transparent),
+      inset 0 1px rgba(255,255,255,.14);
+  }
+  .project-orbit-node .orbit-node-surface { padding: 15px 15px 14px; }
+  .project-orbit-node .orbit-node-code { font-size: 7px; }
+  .project-orbit-node .orbit-node-surface strong { font-size: 21px; }
+  .project-orbit-node .orbit-node-surface>small { font-size: 7px; margin-top: 8px; }
+  .project-orbit-node .orbit-art { margin: 11px 0 8px; border-radius: 9px; }
+  .project-orbit-node .orbit-art-aether:before { width: 105px; }
+  .project-orbit-node .orbit-art-nord:before { font-size: 39px; }
+  .project-orbit-node .orbit-art-vanta i { width: 116px; height: 42px; }
+  .project-orbit-node .orbit-art-vanta i:nth-child(2) { width: 96px; height: 110px; }
+  .project-orbit-node .orbit-art-vanta i:nth-child(3) { width: 78px; height: 122px; }
+  .project-orbit-node .orbit-art-flux i { width: 65px; height: 128px; }
+  .project-orbit-node .orbit-art-object i { width: 69px; height: 96px; }
+  .project-orbit-node .orbit-art-sol i { width: 92px; }
+  .project-orbit-node.is-current .orbit-node-surface:after {
+    content: ""; position: absolute; z-index: 2; inset: -40% -70%;
+    pointer-events: none;
+    background: linear-gradient(112deg, transparent 38%, rgba(255,255,255,.075) 49%, transparent 60%);
+    transform: translateX(-55%);
+    animation: mobileDeckSheen 5.8s ease-in-out infinite;
+  }
+  @keyframes mobileDeckSheen {
+    0%, 58% { transform: translateX(-55%); opacity: 0; }
+    68% { opacity: 1; }
+    100% { transform: translateX(55%); opacity: 0; }
+  }
+  .project-orbit-scene.is-auto-gliding { scroll-snap-type: none; }
+  .project-orbit-scene.is-auto-gliding .project-orbit-node { scroll-snap-align: none; }
+  .project-orbit-foot {
+    display: flex; justify-content: space-between; gap: 12px;
+    padding: 5px var(--mobile-gutter,20px) 0;
+    font-size: 7px; letter-spacing: .11em;
+  }
+  .project-orbit-caption { display: none; }
+}
+@media (max-width: 390px) {
+  .project-orbit-scene { height: 320px; }
+  .project-orbit-node { flex-basis: 78vw; width: 78vw; height: 272px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-orbit-node.is-current .orbit-node-surface:after { animation: none !important; }
+}

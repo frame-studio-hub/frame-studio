@@ -645,6 +645,60 @@
 
     if (!orbitDesktop.matches) {
       let mobileScrollFrame = 0;
+      let mobileAutoFrame = 0;
+      let mobileAutoLast = 0;
+      let mobileResumeTimer = 0;
+      let mobileRailInView = false;
+      const mobileRailQuery = window.matchMedia('(max-width: 900px)');
+      const stopMobileRail = () => {
+        if (mobileAutoFrame) cancelAnimationFrame(mobileAutoFrame);
+        mobileAutoFrame = 0;
+        mobileAutoLast = 0;
+        orbit.classList.remove('is-auto-gliding');
+      };
+      const tickMobileRail = now => {
+        mobileAutoFrame = 0;
+        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || orbitDrag) return;
+        if (!mobileAutoLast) mobileAutoLast = now;
+        const dt = Math.min(40, now - mobileAutoLast);
+        mobileAutoLast = now;
+        // A quiet editorial drift: continuous, slow, and looped through cloned covers.
+        orbit.scrollLeft += dt * .014;
+        mobileAutoFrame = requestAnimationFrame(tickMobileRail);
+      };
+      const startMobileRail = () => {
+        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || mobileAutoFrame) return;
+        orbit.classList.add('is-auto-gliding');
+        mobileAutoLast = 0;
+        mobileAutoFrame = requestAnimationFrame(tickMobileRail);
+      };
+      const resumeMobileRail = delay => {
+        if (mobileResumeTimer) window.clearTimeout(mobileResumeTimer);
+        mobileResumeTimer = window.setTimeout(() => {
+          mobileResumeTimer = 0;
+          startMobileRail();
+        }, delay);
+      };
+      const centerMobileCard = () => {
+        const center = orbit.getBoundingClientRect().left + orbit.clientWidth / 2;
+        const allNodes = $('.project-orbit-node', orbitRing);
+        let closestNode = null, best = Infinity;
+        allNodes.forEach(node => {
+          const rect = node.getBoundingClientRect();
+          const distance = Math.abs(rect.left + rect.width / 2 - center);
+          if (distance < best) { best = distance; closestNode = node; }
+        });
+        if (!closestNode) return;
+        const closestProject = Math.max(0, Number(closestNode.dataset.project) - 1);
+        orbitNodes.forEach(node => node.classList.toggle('is-current', Number(node.dataset.project) - 1 === closestProject));
+        orbit.querySelectorAll('.project-orbit-node.is-loop-clone').forEach(node => {
+          node.classList.toggle('is-current', node === closestNode);
+        });
+        if (closestProject !== orbitIndex) {
+          orbitIndex = closestProject;
+          syncOrbitSelection();
+        }
+      };
       orbit.addEventListener('scroll', () => {
         if (orbitRailEnabled && orbitRailGroupWidth > 0) {
           const lower = orbitRailGroupWidth * .5;
@@ -655,20 +709,49 @@
         if (mobileScrollFrame) return;
         mobileScrollFrame = requestAnimationFrame(() => {
           mobileScrollFrame = 0;
-          const center = orbit.getBoundingClientRect().left + orbit.clientWidth / 2;
-          const allNodes = $$('.project-orbit-node', orbitRing);
-          let closestProject = orbitIndex, best = Infinity;
-          allNodes.forEach(node => {
-            const rect = node.getBoundingClientRect();
-            const distance = Math.abs(rect.left + rect.width / 2 - center);
-            if (distance < best) { best = distance; closestProject = Math.max(0, Number(node.dataset.project) - 1); }
-          });
-          if (closestProject !== orbitIndex) {
-            orbitIndex = closestProject;
-            syncOrbitSelection();
-          }
+          centerMobileCard();
         });
       }, { passive:true });
+      orbit.addEventListener('touchstart', () => {
+        stopMobileRail();
+        if (mobileResumeTimer) window.clearTimeout(mobileResumeTimer);
+      }, { passive:true });
+      orbit.addEventListener('touchend', () => resumeMobileRail(2400), { passive:true });
+      orbit.addEventListener('pointerdown', event => {
+        if (event.pointerType !== 'touch') {
+          stopMobileRail();
+          resumeMobileRail(2600);
+        }
+      }, { passive:true });
+      orbit.addEventListener('click', () => {
+        stopMobileRail();
+        resumeMobileRail(4200);
+      });
+      if ('IntersectionObserver' in window) {
+        const mobileRailObserver = new IntersectionObserver(entries => {
+          mobileRailInView = entries.some(entry => entry.isIntersecting);
+          if (mobileRailInView) startMobileRail();
+          else stopMobileRail();
+        }, { threshold: .12 });
+        mobileRailObserver.observe(orbit);
+      } else {
+        mobileRailInView = true;
+        startMobileRail();
+      }
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopMobileRail();
+        else startMobileRail();
+      });
+      mobileRailQuery.addEventListener?.('change', event => {
+        if (event.matches) startMobileRail();
+        else stopMobileRail();
+      });
+      // Center the first original cover rather than leaving it flush against the edge.
+      requestAnimationFrame(() => {
+        const first = orbitNodes[0];
+        if (first) orbit.scrollLeft = Math.max(0, orbitRailGroupWidth - (orbit.clientWidth - first.getBoundingClientRect().width) / 2);
+        centerMobileCard();
+      });
     }
 
     orbit.addEventListener('keydown', event => {
