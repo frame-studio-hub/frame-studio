@@ -656,32 +656,9 @@
         mobileAutoLast = 0;
         orbit.classList.remove('is-auto-gliding');
       };
-      const tickMobileRail = now => {
-        mobileAutoFrame = 0;
-        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || orbitDrag || modal?.classList.contains('open')) return;
-        if (!mobileAutoLast) mobileAutoLast = now;
-        const dt = Math.min(40, now - mobileAutoLast);
-        mobileAutoLast = now;
-        // A quiet editorial drift: continuous, slow, and looped through cloned covers.
-        orbit.scrollLeft += dt * .014;
-        mobileAutoFrame = requestAnimationFrame(tickMobileRail);
-      };
-      const startMobileRail = () => {
-        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || mobileAutoFrame || modal?.classList.contains('open')) return;
-        orbit.classList.add('is-auto-gliding');
-        mobileAutoLast = 0;
-        mobileAutoFrame = requestAnimationFrame(tickMobileRail);
-      };
-      const resumeMobileRail = delay => {
-        if (mobileResumeTimer) window.clearTimeout(mobileResumeTimer);
-        mobileResumeTimer = window.setTimeout(() => {
-          mobileResumeTimer = 0;
-          startMobileRail();
-        }, delay);
-      };
       const centerMobileCard = () => {
         const center = orbit.getBoundingClientRect().left + orbit.clientWidth / 2;
-        const allNodes = $('.project-orbit-node', orbitRing);
+        const allNodes = $$('.project-orbit-node', orbitRing);
         let closestNode = null, best = Infinity;
         allNodes.forEach(node => {
           const rect = node.getBoundingClientRect();
@@ -699,13 +676,36 @@
           syncOrbitSelection();
         }
       };
-      orbit.addEventListener('scroll', () => {
+      const tickMobileRail = now => {
+        mobileAutoFrame = 0;
+        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || orbitDrag || modal?.classList.contains('open')) return;
+        if (!mobileAutoLast) mobileAutoLast = now;
+        const dt = Math.min(40, now - mobileAutoLast);
+        mobileAutoLast = now;
+        // 38 px/s makes the motion perceptible while keeping each cover readable.
+        orbit.scrollLeft += dt * .038;
         if (orbitRailEnabled && orbitRailGroupWidth > 0) {
           const lower = orbitRailGroupWidth * .5;
           const upper = orbitRailGroupWidth * 1.5;
           if (orbit.scrollLeft < lower) orbit.scrollLeft += orbitRailGroupWidth;
-          else if (orbit.scrollLeft > upper) orbit.scrollLeft -= orbitRailGroupWidth;
+          else if (orbit.scrollLeft >= upper) orbit.scrollLeft -= orbitRailGroupWidth;
         }
+        mobileAutoFrame = requestAnimationFrame(tickMobileRail);
+      };
+      const startMobileRail = () => {
+        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || mobileAutoFrame || modal?.classList.contains('open')) return;
+        orbit.classList.add('is-auto-gliding');
+        mobileAutoLast = 0;
+        mobileAutoFrame = requestAnimationFrame(tickMobileRail);
+      };
+      const resumeMobileRail = delay => {
+        if (mobileResumeTimer) window.clearTimeout(mobileResumeTimer);
+        mobileResumeTimer = window.setTimeout(() => {
+          mobileResumeTimer = 0;
+          startMobileRail();
+        }, delay);
+      };
+      orbit.addEventListener('scroll', () => {
         if (mobileScrollFrame) return;
         mobileScrollFrame = requestAnimationFrame(() => {
           mobileScrollFrame = 0;
@@ -716,28 +716,34 @@
         stopMobileRail();
         if (mobileResumeTimer) window.clearTimeout(mobileResumeTimer);
       }, { passive:true });
-      orbit.addEventListener('touchend', () => resumeMobileRail(2400), { passive:true });
+      orbit.addEventListener('touchend', () => resumeMobileRail(1800), { passive:true });
+      orbit.addEventListener('touchcancel', () => resumeMobileRail(1800), { passive:true });
       orbit.addEventListener('pointerdown', event => {
         if (event.pointerType !== 'touch') {
           stopMobileRail();
-          resumeMobileRail(2600);
+          resumeMobileRail(2200);
         }
       }, { passive:true });
       orbit.addEventListener('click', () => {
         stopMobileRail();
-        resumeMobileRail(4200);
+        resumeMobileRail(3600);
       });
       if ('IntersectionObserver' in window) {
         const mobileRailObserver = new IntersectionObserver(entries => {
           mobileRailInView = entries.some(entry => entry.isIntersecting);
           if (mobileRailInView) startMobileRail();
           else stopMobileRail();
-        }, { threshold: .12 });
+        }, { threshold:.08 });
         mobileRailObserver.observe(orbit);
       } else {
         mobileRailInView = true;
         startMobileRail();
       }
+      const mobileModalObserver = new MutationObserver(() => {
+        if (modal?.classList.contains('open')) stopMobileRail();
+        else startMobileRail();
+      });
+      if (modal) mobileModalObserver.observe(modal, { attributes:true, attributeFilter:['class'] });
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) stopMobileRail();
         else startMobileRail();
@@ -746,11 +752,10 @@
         if (event.matches) startMobileRail();
         else stopMobileRail();
       });
-      // Center the first original cover rather than leaving it flush against the edge.
       requestAnimationFrame(() => {
-        const first = orbitNodes[0];
-        if (first) orbit.scrollLeft = Math.max(0, orbitRailGroupWidth - (orbit.clientWidth - first.getBoundingClientRect().width) / 2);
+        if (orbitRailEnabled && orbitRailGroupWidth > 0) orbit.scrollLeft = orbitRailGroupWidth;
         centerMobileCard();
+        startMobileRail();
       });
     }
 

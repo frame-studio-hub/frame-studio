@@ -4625,3 +4625,107 @@ button,a{-webkit-tap-highlight-color:transparent}
 @media (prefers-reduced-motion: reduce) {
   .project-orbit-node.is-current .orbit-node-surface:after { animation: none !important; }
 }
+
+
+/* MOBILE ART DIRECTION / PASS 02 — motion, hierarchy and tactile cards */
+@media (max-width: 700px) {
+  .project-orbit-module { padding-top: 20px; padding-bottom: 16px; }
+  .project-orbit-scene {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-behavior: auto !important;
+    scroll-snap-type: x mandatory !important;
+    touch-action: pan-x pan-y;
+  }
+  .project-orbit-ring { width: max-content !important; min-width: max-content; }
+  .project-orbit-scene.is-auto-gliding { scroll-snap-type: none !important; }
+  .project-orbit-scene.is-auto-gliding .project-orbit-node { scroll-snap-align: none !important; }
+  .project-orbit-node { flex: 0 0 min(78vw, 310px) !important; }
+  .project-orbit-node.is-current { opacity: 1 !important; filter: none !important; }
+
+  /* Service rows become compact editorial panels instead of a compressed desktop table. */
+  .service-list { display: grid; gap: 10px; border-top: 0; }
+  .service-item, .service-item:hover, .service-item:focus-within {
+    position: relative; display: grid;
+    grid-template-columns: 28px minmax(0,1fr) 22px;
+    align-items: start; gap: 12px;
+    min-height: 0; padding: 18px 14px 17px;
+    border: 1px solid rgba(226,238,216,.12);
+    border-radius: 13px;
+    background: linear-gradient(145deg,rgba(25,31,22,.8),rgba(10,13,10,.92));
+    box-shadow: 0 12px 32px rgba(0,0,0,.18), inset 0 1px rgba(255,255,255,.035);
+    transform: none;
+  }
+  .service-item:before {
+    content: ""; position: absolute; left: 0; top: 15px; bottom: 15px;
+    width: 2px; border-radius: 2px; background: var(--lime);
+    opacity: .72; box-shadow: 0 0 16px rgba(199,255,66,.28);
+  }
+  .service-num { padding-top: 3px; color: var(--lime); font-size: 8px; }
+  .service-main { min-width: 0; }
+  .service-main h3 { font-size: 17px; line-height: 1.15; letter-spacing: -.045em; }
+  .service-main p { margin-top: 8px; max-width: 39ch; color: #aeb6a6; font-size: 10px; line-height: 1.7; }
+  .service-result { display: block; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(226,238,216,.1); font-size: 9px; line-height: 1.6; }
+  .service-result span { display: block; margin-bottom: 4px; color: var(--lime); font: 7px var(--mono); letter-spacing: .13em; }
+  .service-detail { grid-column: 2 / 4; display: block; width: 100%; height: 74px; min-height: 74px; margin-top: 4px; opacity: .9; overflow: hidden; border-radius: 8px; }
+  .service-plus { grid-column: 3; grid-row: 1; margin-top: 1px; color: var(--lime); }
+  .service-brief-link { grid-column: 2 / 4; margin-top: 11px; padding-top: 10px; border-top: 1px solid rgba(226,238,216,.1); font-size: 7px; letter-spacing: .12em; }
+
+  /* Process becomes a sequence of individually legible steps. */
+  .process-layout { display: block; }
+  .process-steps { width: 100%; max-width: none; margin: 28px 0 0; }
+  .process-line { left: 15px; top: 18px; bottom: 18px; opacity: .55; }
+  .process-step {
+    grid-template-columns: 32px minmax(0,1fr) 18px;
+    gap: 10px; min-height: 76px; padding: 14px 10px;
+    margin-bottom: 7px; border: 1px solid rgba(225,238,215,.1);
+    border-radius: 10px; background: rgba(17,22,16,.62);
+  }
+  .process-step .step-desc { grid-column: 2; max-width: none; margin-top: 5px; font-size: 9px; line-height: 1.55; }
+  .process-step .step-name { font-size: 14px; }
+  .process-step i { grid-column: 3; grid-row: 1; }
+  .process-step.active { border-color: rgba(199,255,66,.28); background: linear-gradient(110deg,rgba(199,255,66,.07),rgba(17,22,16,.7)); }
+
+  /* Print studies: a tactile horizontal gallery with partial neighboring cards. */
+  .visual-study-deck {
+    display: flex !important; gap: 13px;
+    width: calc(100% + 36px); margin-left: -18px;
+    padding: 8px 18px 22px; overflow-x: auto; overflow-y: hidden;
+    scroll-snap-type: x mandatory; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;
+  }
+  .visual-study-deck::-webkit-scrollbar { display: none; }
+  .visual-study-deck [data-print-card] {
+    flex: 0 0 min(78vw, 310px); width: min(78vw, 310px);
+    min-width: 0; min-height: 0; scroll-snap-align: center;
+    transform: none !important; opacity: 1 !important;
+    box-shadow: 0 20px 45px rgba(0,0,0,.3);
+    transition: transform .55s cubic-bezier(.2,.8,.2,1), box-shadow .55s ease;
+  }
+  .visual-study-deck [data-print-card]:active { transform: scale(.975) !important; }
+  .visual-study-deck [data-print-card] .visual-print-art { min-height: 350px; }
+
+  /* Sculptures retain a sense of movement even when touch has no hover state. */
+  .matter-card { border-radius: 12px; }
+  .matter-card-stage { isolation: isolate; }
+  .matter-card-stage .matter-stage-glow {
+    opacity: .9;
+    animation: mobileMatterBreath 7s ease-in-out infinite alternate;
+  }
+  .matter-card:nth-child(2) .matter-card-stage .matter-stage-glow { animation-delay: -2.2s; }
+  .matter-card:nth-child(3) .matter-card-stage .matter-stage-glow { animation-delay: -4.4s; }
+  @keyframes mobileMatterBreath {
+    from { transform: scale(.92) translate3d(-2%,1%,0); opacity: .48; }
+    to { transform: scale(1.08) translate3d(2%,-1%,0); opacity: .95; }
+  }
+  .matter-card-caption { gap: 12px; }
+  .matter-card-caption h3 { letter-spacing: -.055em; }
+  .matter-select { flex: 0 0 auto; min-height: 38px; }
+
+  .review-form-shell { border: 1px solid rgba(226,238,216,.13); border-radius: 14px; }
+  .review-card { border: 1px solid rgba(226,238,216,.12); border-radius: 12px; background: linear-gradient(145deg,rgba(24,30,21,.82),rgba(10,13,10,.94)); }
+  .faq-list details { border-bottom: 1px solid rgba(226,238,216,.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .matter-card-stage .matter-stage-glow { animation: none !important; }
+}
