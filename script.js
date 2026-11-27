@@ -648,7 +648,10 @@
       let mobileAutoFrame = 0;
       let mobileAutoLast = 0;
       let mobileResumeTimer = 0;
-      let mobileRailInView = false;
+      // Start optimistically; IntersectionObserver immediately pauses the rail
+      // when the deck is outside the viewport. This avoids a dead carousel if
+      // the observer callback is delayed or suppressed by mobile Safari.
+      let mobileRailInView = true;
       const mobileRailQuery = window.matchMedia('(max-width: 900px)');
       const stopMobileRail = () => {
         if (mobileAutoFrame) cancelAnimationFrame(mobileAutoFrame);
@@ -678,7 +681,7 @@
       };
       const tickMobileRail = now => {
         mobileAutoFrame = 0;
-        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || orbitDrag || modal?.classList.contains('open')) return;
+        if (!mobileRailInView || document.hidden || !mobileRailQuery.matches || orbitDrag || modal?.classList.contains('open')) return;
         if (!mobileAutoLast) mobileAutoLast = now;
         const dt = Math.min(40, now - mobileAutoLast);
         mobileAutoLast = now;
@@ -693,7 +696,7 @@
         mobileAutoFrame = requestAnimationFrame(tickMobileRail);
       };
       const startMobileRail = () => {
-        if (!mobileRailInView || document.hidden || reduceMotion || !mobileRailQuery.matches || mobileAutoFrame || modal?.classList.contains('open')) return;
+        if (!mobileRailInView || document.hidden || !mobileRailQuery.matches || mobileAutoFrame || modal?.classList.contains('open')) return;
         orbit.classList.add('is-auto-gliding');
         mobileAutoLast = 0;
         mobileAutoFrame = requestAnimationFrame(tickMobileRail);
@@ -752,6 +755,8 @@
         if (event.matches) startMobileRail();
         else stopMobileRail();
       });
+      // Kick off autoplay immediately instead of waiting for the first
+      // IntersectionObserver delivery (which can be late on iOS Safari).
       requestAnimationFrame(() => {
         if (orbitRailEnabled && orbitRailGroupWidth > 0) orbit.scrollLeft = orbitRailGroupWidth;
         centerMobileCard();
