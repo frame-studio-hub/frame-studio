@@ -648,10 +648,9 @@
       let mobileAutoFrame = 0;
       let mobileAutoLast = 0;
       let mobileResumeTimer = 0;
-      // Start optimistically; IntersectionObserver immediately pauses the rail
-      // when the deck is outside the viewport. This avoids a dead carousel if
-      // the observer callback is delayed or suppressed by mobile Safari.
-      let mobileRailInView = true;
+      // Autoplay is deliberately independent of IntersectionObserver.
+      // Some mobile browsers report a stale/non-intersecting state for nested
+      // overflow containers and can leave the rail permanently stopped.
       const mobileRailQuery = window.matchMedia('(max-width: 900px)');
       const stopMobileRail = () => {
         if (mobileAutoFrame) cancelAnimationFrame(mobileAutoFrame);
@@ -681,12 +680,12 @@
       };
       const tickMobileRail = now => {
         mobileAutoFrame = 0;
-        if (!mobileRailInView || document.hidden || !mobileRailQuery.matches || orbitDrag || modal?.classList.contains('open')) return;
+        if (document.hidden || !mobileRailQuery.matches || orbitDrag || modal?.classList.contains('open')) return;
         if (!mobileAutoLast) mobileAutoLast = now;
         const dt = Math.min(40, now - mobileAutoLast);
         mobileAutoLast = now;
-        // 38 px/s makes the motion perceptible while keeping each cover readable.
-        orbit.scrollLeft += dt * .038;
+        // 55 px/s gives an unmistakable continuous glide while keeping covers readable.
+        orbit.scrollLeft += dt * .055;
         if (orbitRailEnabled && orbitRailGroupWidth > 0) {
           const lower = orbitRailGroupWidth * .5;
           const upper = orbitRailGroupWidth * 1.5;
@@ -696,7 +695,7 @@
         mobileAutoFrame = requestAnimationFrame(tickMobileRail);
       };
       const startMobileRail = () => {
-        if (!mobileRailInView || document.hidden || !mobileRailQuery.matches || mobileAutoFrame || modal?.classList.contains('open')) return;
+        if (document.hidden || !mobileRailQuery.matches || mobileAutoFrame || modal?.classList.contains('open')) return;
         orbit.classList.add('is-auto-gliding');
         mobileAutoLast = 0;
         mobileAutoFrame = requestAnimationFrame(tickMobileRail);
@@ -731,17 +730,14 @@
         stopMobileRail();
         resumeMobileRail(3600);
       });
-      if ('IntersectionObserver' in window) {
-        const mobileRailObserver = new IntersectionObserver(entries => {
-          mobileRailInView = entries.some(entry => entry.isIntersecting);
-          if (mobileRailInView) startMobileRail();
-          else stopMobileRail();
-        }, { threshold:.08 });
-        mobileRailObserver.observe(orbit);
-      } else {
-        mobileRailInView = true;
-        startMobileRail();
-      }
+      // Do not stop autoplay when the section leaves the viewport: on iOS,
+      // nested overflow + IO can deliver a stale false entry and never recover.
+      startMobileRail();
+      window.addEventListener('pageshow', startMobileRail);
+      window.addEventListener('focus', startMobileRail);
+      window.addEventListener('resize', () => {
+        if (mobileRailQuery.matches) startMobileRail();
+      }, { passive:true });
       const mobileModalObserver = new MutationObserver(() => {
         if (modal?.classList.contains('open')) stopMobileRail();
         else startMobileRail();
