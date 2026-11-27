@@ -4729,3 +4729,20 @@ button,a{-webkit-tap-highlight-color:transparent}
 @media (prefers-reduced-motion: reduce) {
   .matter-card-stage .matter-stage-glow { animation: none !important; }
 }
+
+
+/* MOBILE PROJECT MARQUEE — CSS-driven so page scrolling never suspends the glide. */
+@media (max-width: 1100px) {
+  #project-orbit-ring {
+    will-change: translate;
+    animation: frameProjectMarquee var(--orbit-marquee-duration, 60s) linear infinite !important;
+    animation-play-state: running !important;
+  }
+  #project-orbit-scene.is-auto-paused #project-orbit-ring {
+    animation-play-state: paused !important;
+  }
+  @keyframes frameProjectMarquee {
+    from { translate: calc(-1 * var(--orbit-loop-width, 0px)) 0; }
+    to   { translate: calc(-2 * var(--orbit-loop-width, 0px)) 0; }
+  }
+}
